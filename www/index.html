@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/main-script.js"></script>
+        <script type="text/javascript" src="bower_components/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="bower_components/material-design-lite/material.min.js"></script>
+        
+
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/material-design-lite/material.min.css">
+        
+        <title>ShakePoint</title>
+        <style>
+            #main-card{
+                width: 90%; 
+                padding: 12px; 
+                top: 20%; 
+            }
+            .logo{
+                margin-top: 100px; 
+                width: 50%;
+                height: 128px;
+            }   
+        </style>
+        <script type="text/javascript">
+
+        $(function(){
+            //save a tmp auth token as admin albertoruvel@gmail.com
+            /**saveAuthToken("YWxiZXJ0b3J1dmVsQGdtYWlsLmNvbTphZG1pbmluYWN0aW9u");
+            saveUserEmail("albertoruvel@gmail.com");
+            window.location = "member/index.html"; **/
+            if(getAuthToken().split(" ")[1] !== 'null'){
+                window.location = "member/index.html"; 
+            }
+        }); 
+        </script>
+    </head>
+    <body>
+        <img class="logo center-block" src="img/logo.png">
+        <div id="main-card" class="mdl-card mdl-shadow--4dp center-block text-center">
+            <h4>Bienvenido a ShakePoint</h4>
+            <p>ShakePoint es la plataforma perfecta para comprar bebida con proteina 
+            en maquinas expendedoras ShakePoint, blah blah blah<p>
+
+            <a href="signup.html" class="mdl-button mdl-js-button mdl-button--accent center-block" style="width: 70%;">Registrarse</a><br/>
+            <a href="signin.html" class="mdl-button mdl-js-button mdl-button--accent center-block" style="width: 70%;">Ya soy miembro</a><br/>
+        </div>
+    </body>
+</html>

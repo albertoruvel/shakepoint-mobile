@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' https://fonts.googleapis.com/ 'unsafe-inline'; script-src 'self' https://sw.banwire.com/ 'unsafe-eval' 'unsafe-inline';">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+        <script type="text/javascript" src="https://sw.banwire.com/checkout.js"></script>
+        <script type="text/javascript" src="../cordova.js"></script>
+        <script type="text/javascript" src="../bower_components/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="../bower_components/material-design-lite/material.min.js"></script>
+        <script type="text/javascript" src="../bower_components/knockout/knockout.js"></script>
+        <script type="text/javascript" src="../js/viewmodels/homeviewmodel.js"></script>
+        <script type="text/javascript" src="../js/main-script.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../bower_components/material-design-lite/material.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+        
+        <title>ShakePoint</title>
+        <style>
+            .product-card{
+                padding: 8px; 
+                width: 90%;
+                height: 384px;
+            }
+            .product-logo{
+              width: 70%; 
+              height: 60%;
+            }
+            .package-logo{
+              width: 70%;
+              height: 50%;
+            }
+            li{
+              margin-bottom: 24px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+            mdl-layout--fixed-tabs">
+          <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+              <!-- Title -->
+              <span class="mdl-layout-title" data-bind="text: title"></span>
+            </div>
+            <!-- Tabs -->
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+              <a href="#fixed-tab-1" class="mdl-layout__tab is-active">Productos</a>
+              <a href="#fixed-tab-2" class="mdl-layout__tab">Paquetes</a>
+            </div>
+          </header>
+          <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">albertoruvel@gmail.com</span>
+            <nav class="mdl-navigation">
+              <a class="mdl-navigation__link is-active" href="index.html" selected>Inicio</a>
+              <a class="mdl-navigation__link" href="profile.html">Perfil</a>
+              <a class="mdl-navigation__link" href="active-codes.html">Códigos activos</a>
+              <a class="mdl-navigation__link" href="purchases.html">Compras realizadas</a>
+              <a data-bind="click: searchMachine" class="mdl-navigation__link" href="#">Buscar máquina ShakePoint</a>
+              <a class="mdl-navigation__link" href="#"data-bind="click: logout">Salir</a>
+            </nav>
+          </div>
+          <main class="mdl-layout__content">  
+            <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+              <div class="page-content">
+                  <div data-bind="visible: error" class="alert alert-warning center-block text-center" role="alert" style="font-size: 12px;">
+                      <b data-bind="text: errorMessage"></b>
+                  </div>
+                  <div data-bind="visible: loading" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active center-block" style="width: 32px; height: 32px;margin-left: auto; margin-right: auto;display: block; margin-top: 16px;"></div>
+                  <ul data-bind="visible: products().length > 0, foreach: { data: products, as: 'product'}" class="center-block" style="list-style-type: none;margin: 0px;width: 100%;padding:0px;">
+                    <li>
+                      <div class="mdl-card mdl-shadow--4dp center-block product-card">
+                        <h5 style="margin: 6px; height: 10%;" data-bind="text: product.name"></h5>
+                        <div class="mdl-card__supporting-text center-block" style="height: 75%; padding: 0px;">
+                          <img data-bind="attr: { src: product.logoUrl }" class="product-logo center-block" style="display: block;" alt="../img/logo.png"><br/>
+                          <p data-bind="text: product.description" style="width: 100%;" class="center-block text-center">
+                            
+                          </p>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border" style="height: 10%;">
+                          <button data-bind="click: $parent.buyProduct" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect center-block" style="width: 100%; ">
+                            Comprar
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+              </div>
+            </section>
+            <section class="mdl-layout__tab-panel" id="fixed-tab-2">
+              <div class="page-content">
+              <div data-bind="visible: packagesError" class="alert alert-warning center-block text-center" role="alert" style="font-size: 12px;">
+                      <b data-bind="text: packagesErrorMessage"></b>
+                  </div>
+                  <div data-bind="visible: loadingPackages" class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active center-block" style="width: 32px; height: 32px;margin-left: auto; margin-right: auto;display: block; margin-top: 16px;"></div>
+                  <ul data-bind="foreach: { data: packages, as: 'package'}" class="center-block" style="list-style-type: none;margin: 0px;width: 100%;padding:0px;">
+                    <li>
+                      <div class="mdl-card mdl-shadow--4dp center-block product-card">
+                        <h5 style="margin: 6px; height: 10%;" data-bind="text: package.name"></h5>
+                        <div class="mdl-card__supporting-text center-block" style="height: 75%; padding: 0px;">
+                          <img data-bind="attr: { src: package.logoUrl }" class="package-logo center-block" style="display: block;" alt="../img/logo.png"><br/>
+                          <p style="width: 100%;" class="center-block">
+                            Descripción: <br/><b data-bind="text: package.description"></b><br/>
+                            Ahorro al comprar paquete: <b data-bind="text: package.savings"></b> MXN
+                          </p>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border" style="height: 10%;">
+                          <button data-bind="click: $parent.buyProduct" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect center-block" style="width: 100%; ">
+                            Comprar
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+              </div>
+            </section>
+          </main>
+        </div>
+    </body>
+</html>

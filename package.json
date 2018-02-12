@@ -1,0 +1,17 @@
+{
+  "name": "com.shakepoint.mobile",
+  "version": "1.0.0",
+  "displayName": "ShakePoint",
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    }
+  },
+  "dependencies": {
+    "cordova-android": "~6.3.0",
+    "cordova-plugin-whitelist": "1"
+  }
+}
