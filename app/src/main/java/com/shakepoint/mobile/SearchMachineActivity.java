@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.support.v7.widget.SearchView;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchMachineActivity extends AppCompatActivity {
+
+
 
     @BindView(R.id.searchMachineCard)
     CardView searchMachineCard;
@@ -128,6 +131,7 @@ public class SearchMachineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
+                setResult(RESULT_CANCELED);
                 finish();
                 break;
             case R.id.searchByLocation:
@@ -137,6 +141,7 @@ public class SearchMachineActivity extends AppCompatActivity {
                 searchMachineCard.setVisibility(View.VISIBLE);
                 ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
                         LOCATION_PERMISSION_REQUEST_CODE);
+                mainMessage.setVisibility(View.GONE);
                 break;
             case R.id.searchByName:
                 currentSearch = SEARCH_BY_NAME;
@@ -162,8 +167,9 @@ public class SearchMachineActivity extends AppCompatActivity {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
-                        //if (query.isEmpty())return false;
-                        //searchMachines(query);
+                        if (query.isEmpty())return false;
+                        searchMachines(query);
+                        hideKeyboard();
                         return true;
                     }
 
@@ -177,6 +183,14 @@ public class SearchMachineActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void searchMachines(String query) {
@@ -196,6 +210,7 @@ public class SearchMachineActivity extends AppCompatActivity {
                                             SharedUtils.setPreferredMachine(SearchMachineActivity.this, adapter.getMachine(position));
                                             Toast.makeText(SearchMachineActivity.this, String.format(getString(R.string.preferredMachineSet),
                                                     adapter.getMachine(position).getMachineName()), Toast.LENGTH_LONG).show();
+                                            setResult(RESULT_OK, null);
                                             finish();
                                         }
                                     });
@@ -222,6 +237,7 @@ public class SearchMachineActivity extends AppCompatActivity {
         SharedUtils.setPreferredMachine(this, machineSearchResponse);
         Toast.makeText(this, String.format(getString(R.string.preferredMachineSet),
                 machineSearchResponse.getMachineName()), Toast.LENGTH_SHORT).show();
+        setResult(RESULT_CANCELED);
         finish();
     }
 
@@ -275,7 +291,7 @@ public class SearchMachineActivity extends AppCompatActivity {
             return;
         }
         machineName.setText(body.getMachineName());
-        machineDistance.setText(String.format(getString(R.string.machine_distance), String.valueOf(body.getDistance())));
+        machineDistance.setText(String.format(getString(R.string.machine_distance), String.valueOf(SharedUtils.round(body.getDistance(), 2))));
         searchMachineCard.setVisibility(View.GONE);
         searchMachineResult.setVisibility(View.VISIBLE);
         machineSearchResponse = body;

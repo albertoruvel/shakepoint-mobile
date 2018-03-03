@@ -16,6 +16,7 @@
     <string name="preferredMachineSet">Has seleccionado %s como tu máquina preferida</string>
     <string name="exit">Salir</string>
     <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
     <string name="signing_in">Iniciando sesión con Shakepoint</string>
     <string name="signing_up">Registrándose en Shakepoint</string>
     <string name="machine_distance">Actualmente, te encuentras a %s metros de la maquina</string>

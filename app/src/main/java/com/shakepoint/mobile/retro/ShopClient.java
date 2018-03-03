@@ -7,6 +7,7 @@ import com.shakepoint.mobile.data.res.MachineSearchResponse;
 import com.shakepoint.mobile.data.res.ProductResponse;
 import com.shakepoint.mobile.data.res.ProductResponseWrapper;
 import com.shakepoint.mobile.data.res.ProfileResponse;
+import com.shakepoint.mobile.data.res.PurchaseConfirmationResponse;
 import com.shakepoint.mobile.data.res.PurchaseResponse;
 import com.shakepoint.mobile.data.res.QrCodeResponse;
 import com.shakepoint.mobile.data.res.SimpleQRCodeResponse;
@@ -51,7 +52,7 @@ public interface ShopClient {
     public Call<List<QrCodeResponse>> getActiveCodesByMachine(@Header("Authorization")String token, @Query("machineId")String machineId);
 
     @POST("shop/confirmPurchase")
-    public Call<SimpleQRCodeResponse> confirmPurchase(@Header("Authorization")String token, @Body ConfirmPurchaseRequest request);
+    public Call<PurchaseConfirmationResponse> confirmPurchase(@Header("Authorization")String token, @Body ConfirmPurchaseRequest request);
 
     @GET("shop/getAvailablePurchaseForMachine")
     public Call<AvailablePurchaseResponse> getAvailablePurchaseForMachine(@Header("Authorization")String token, @Query("productId") String productId, @Query("machineId")String machineId);

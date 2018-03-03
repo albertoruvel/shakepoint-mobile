@@ -6,11 +6,39 @@ package com.shakepoint.mobile.data.req;
 
 public class ConfirmPurchaseRequest {
     private String purchaseId;
-    private String reference;
+    private String cardNumber;
+    private String cardExpirationDate;
+    private String cvv;
 
-    public ConfirmPurchaseRequest(String purchaseId, String reference) {
+    public ConfirmPurchaseRequest(String purchaseId, String cardNumber, String cardExpirationDate, String cvv) {
         this.purchaseId = purchaseId;
-        this.reference = reference;
+        this.cardNumber = cardNumber;
+        this.cardExpirationDate = cardExpirationDate;
+        this.cvv = cvv;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getCardExpirationDate() {
+        return cardExpirationDate;
+    }
+
+    public void setCardExpirationDate(String cardExpirationDate) {
+        this.cardExpirationDate = cardExpirationDate;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 
     public ConfirmPurchaseRequest() {
@@ -25,11 +53,4 @@ public class ConfirmPurchaseRequest {
         this.purchaseId = purchaseId;
     }
 
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
 }

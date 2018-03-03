@@ -7,85 +7,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shakepoint.mobile.SignupActivity">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <ImageView
-            android:id="@+id/imageView"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/shakepoint" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/shakepoint" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/signupName"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre"
-                android:imeOptions="actionNext" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="16dp">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+                <android.support.design.widget.TextInputEditText
+                    android:inputType="textCapWords"
+                    android:id="@+id/signupName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre"
+                    android:imeOptions="actionNext" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/signupEmail"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Correo electrónico"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="16dp">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:passwordToggleEnabled="true">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/signupEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Correo electrónico"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/signupPassword"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contraseña"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="16dp"
+                app:passwordToggleEnabled="true">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:passwordToggleEnabled="true">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/signupPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contraseña"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/signupPassword2"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Repetir contraseña"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="16dp"
+                app:passwordToggleEnabled="true">
 
-        <Button
-            android:id="@+id/signupButton"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Registrarse"
-            android:textColorHint="@android:color/black" />
-    </LinearLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/signupPassword2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Repetir contraseña"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/signupButton"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Registrarse"
+                android:textColorHint="@android:color/black" />
+        </LinearLayout>
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

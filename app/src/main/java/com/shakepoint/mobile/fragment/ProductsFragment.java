@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -21,6 +22,7 @@ import com.shakepoint.mobile.ProductDetailsActivity;
 import com.shakepoint.mobile.R;
 import com.shakepoint.mobile.SearchMachineActivity;
 import com.shakepoint.mobile.adapter.ProductsAdapter;
+import com.shakepoint.mobile.data.res.MachineSearchResponse;
 import com.shakepoint.mobile.data.res.ProductResponseWrapper;
 import com.shakepoint.mobile.decorator.SpaceDividerItemDecorator;
 import com.shakepoint.mobile.retro.RetroFactory;
@@ -34,7 +36,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ProductsFragment extends Fragment {
+
+    public static final int SEARCH_MACHINE_REQUEST_CODE = 121;
 
     @BindView(R.id.productsMessage)
     TextView message;
@@ -71,9 +77,9 @@ public class ProductsFragment extends Fragment {
     }
 
     @OnClick(R.id.productsChangeMachineButton)
-    public void changeMachine(){
+    public void changeMachine() {
         Intent intent = new Intent(getActivity(), SearchMachineActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, SEARCH_MACHINE_REQUEST_CODE, null);
     }
 
     @Override
@@ -111,9 +117,9 @@ public class ProductsFragment extends Fragment {
 
     private void getProducts() {
         loading = false;
-
+        MachineSearchResponse preferredMachine = SharedUtils.getPreferredMachine(getActivity());
         //check if there is a preferred machine
-        if (SharedUtils.getPreferredMachine(getActivity()) != null) {
+        if (preferredMachine != null) {
             //set current machine
             currentMachineCard.setVisibility(View.VISIBLE);
             machineName.setText(SharedUtils.getPreferredMachine(getActivity()).getMachineName());
@@ -123,7 +129,7 @@ public class ProductsFragment extends Fragment {
                     .enqueue(new Callback<ProductResponseWrapper>() {
                         @Override
                         public void onResponse(Call<ProductResponseWrapper> call, Response<ProductResponseWrapper> response) {
-                            switch(response.code()){
+                            switch (response.code()) {
                                 case 200:
                                     loading = false;
                                     adapter = new ProductsAdapter(response.body().getProducts(), new View.OnClickListener() {
@@ -173,8 +179,19 @@ public class ProductsFragment extends Fragment {
         }
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SEARCH_MACHINE_REQUEST_CODE && resultCode == RESULT_OK) {
+            //a machine have been set
+            getProducts();
+            Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), "Actualizando productos", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onDetach() {
+        recyclerView.setAdapter(null);
         super.onDetach();
     }
 }

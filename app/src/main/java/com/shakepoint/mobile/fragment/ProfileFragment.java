@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +69,7 @@ public class ProfileFragment extends Fragment {
     TextView message;
 
     @BindView(R.id.profileBirthDate)
-    Button birthDate;
+    TextInputEditText birthDate;
 
     @BindView(R.id.profileCmi)
     TextView cmi;
@@ -100,11 +102,77 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (currentView == null) {
+
             currentView = inflater.inflate(R.layout.fragment_profile, container, false);
             ButterKnife.bind(this, currentView);
+            birthDate.addTextChangedListener(new TextWatcher() {
+                private String current = "";
+                private String ddmmyyyy = "DDMMYYYY";
+                private Calendar cal = Calendar.getInstance();
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!s.toString().equals(current)) {
+                        String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                        String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+
+                        int cl = clean.length();
+                        int sel = cl;
+                        for (int i = 2; i <= cl && i < 6; i += 2) {
+                            sel++;
+                        }
+                        //Fix for pressing delete next to a forward slash
+                        if (clean.equals(cleanC)) sel--;
+
+                        if (clean.length() < 8) {
+                            clean = clean + ddmmyyyy.substring(clean.length());
+                        } else {
+                            //This part makes sure that when we finish entering numbers
+                            //the date is correct, fixing it otherwise
+                            int day = Integer.parseInt(clean.substring(0, 2));
+                            int mon = Integer.parseInt(clean.substring(2, 4));
+                            int year = Integer.parseInt(clean.substring(4, 8));
+
+                            mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
+                            cal.set(Calendar.MONTH, mon - 1);
+                            year = (year < 1900) ? 1900 : (year > 2100) ? 2100 : year;
+                            cal.set(Calendar.YEAR, year);
+                            // ^ first set year for the line below to work correctly
+                            //with leap years - otherwise, date e.g. 29/02/2012
+                            //would be automatically corrected to 28/02/2012
+
+                            day = (day > cal.getActualMaximum(Calendar.DATE)) ? cal.getActualMaximum(Calendar.DATE) : day;
+                            clean = String.format("%02d%02d%02d", day, mon, year);
+                        }
+
+                        clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                                clean.substring(2, 4),
+                                clean.substring(4, 8));
+
+                        sel = sel < 0 ? 0 : sel;
+                        current = clean;
+                        birthDate.setText(current);
+                        birthDate.setSelection(sel < current.length() ? sel : current.length());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
         }
 
-        //get profile
+        getProfile();
+        return currentView;
+    }
+
+    private void getProfile(){
         shopClient.getUserProfile(SharedUtils.getAuthenticationHeader(getActivity()))
                 .enqueue(new Callback<ProfileResponse>() {
                     @Override
@@ -114,6 +182,12 @@ public class ProfileFragment extends Fragment {
                                 if (response.body().isAvailableProfile()) {
                                     populateProfile(response.body());
                                 } else {
+                                    //set only name, email, cmi user since
+                                    name.setText(response.body().getUserName());
+                                    email.setText(response.body().getEmail());
+                                    userSince.setText(response.body().getUserSince());
+                                    totalPurchases.setText("" + response.body().getPurchasesTotal());
+                                    cmi.setText("" + SharedUtils.round(response.body().getCmi(), 2));
                                     message.setVisibility(View.VISIBLE);
                                     message.setText("Actualmente no cuentas con un perfil, actualiza tus datos. ");
                                 }
@@ -130,8 +204,8 @@ public class ProfileFragment extends Fragment {
 
                     }
                 });
-        return currentView;
     }
+
 
     private void populateProfile(ProfileResponse body) {
         name.setText(body.getUserName());
@@ -153,6 +227,15 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        name.setText("");
+        email.setText("");
+        age.setText("");
+        weight.setText("");
+        height.setText("");
+        birthDate.setText("");
+        userSince.setText("");
+        totalPurchases.setText("");
+        cmi.setText("");
         super.onDetach();
     }
 
@@ -166,15 +249,15 @@ public class ProfileFragment extends Fragment {
         if (ageValue.isEmpty()) {
             Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), getString(R.string.required_age), Snackbar.LENGTH_LONG).show();
             return;
-        }else if (weightValue.isEmpty()){
+        } else if (weightValue.isEmpty()) {
             Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), getString(R.string.required_weight), Snackbar.LENGTH_LONG).show();
             return;
-        } else if (heightValue.isEmpty()){
+        } else if (heightValue.isEmpty()) {
             Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), getString(R.string.required_height), Snackbar.LENGTH_LONG).show();
             return;
-        }else {
+        } else {
             //validate birthdate
-            try{
+            try {
                 Date date = new SimpleDateFormat("dd/MM/yyyy").parse(birthDateValue); //this will throw exception when no birthdate is set
                 progressDialog = new ProgressDialog(getActivity(), R.style.ColoredProgressDialog);
                 progressDialog.setMessage("Guardando perfil");
@@ -188,7 +271,7 @@ public class ProfileFragment extends Fragment {
                         .enqueue(new Callback<ProfileResponse>() {
                             @Override
                             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
-                                switch(response.code()){
+                                switch (response.code()) {
                                     case 200:
                                         Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), "Perfil actualizado correctamente", Snackbar.LENGTH_LONG).show();
                                         break;
@@ -204,30 +287,11 @@ public class ProfileFragment extends Fragment {
                                 progressDialog.dismiss();
                             }
                         });
-            }catch(ParseException ex){
+            } catch (ParseException ex) {
                 //invalid date
                 Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), getString(R.string.required_birthdate), Snackbar.LENGTH_LONG).show();
                 return;
             }
         }
-    }
-
-    @OnClick(R.id.profileBirthDate)
-    public void setBirthDate() {
-        Calendar cal = Calendar.getInstance();
-        DatePickerDialog datePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-                String date = String.format("%d/%d/%d", d, m, y);
-                birthDate.setText(date);
-                message.setVisibility(View.GONE);
-            }
-        },
-                cal.get(Calendar.YEAR) - 16,
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-        datePicker.setCancelable(false);
-        datePicker.setTitle("Selecciona tu fecha de nacimiento");
-        datePicker.show();
     }
 }

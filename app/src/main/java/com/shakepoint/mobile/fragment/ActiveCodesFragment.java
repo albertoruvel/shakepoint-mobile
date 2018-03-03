@@ -109,7 +109,7 @@ public class ActiveCodesFragment extends Fragment {
                                         recyclerView.setAdapter(adapter);
                                         recyclerView.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.GONE);
-                                        message.setVisibility(View.VISIBLE);
+                                        message.setVisibility(View.GONE);
                                         refreshLayout.setRefreshing(false);
                                     }
                                     break;
@@ -121,6 +121,7 @@ public class ActiveCodesFragment extends Fragment {
                                     recyclerView.setVisibility(View.GONE);
                                     break;
                             }
+                            refreshLayout.setRefreshing(false);
                         }
 
                         @Override
@@ -152,13 +153,15 @@ public class ActiveCodesFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        recyclerView.setAdapter(null);
         super.onDetach();
     }
 
     private void showMessage(String messageString) {
         progressBar.setVisibility(View.GONE);
         message.setText(messageString);
-        message.setVisibility(View.GONE);
+        message.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        refreshLayout.setRefreshing(false);
     }
 }

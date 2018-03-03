@@ -124,6 +124,7 @@ public class PurchasesFragment extends Fragment {
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);
+                                    message.setVisibility(View.GONE);
                                 }
                                 break;
                             default:
@@ -133,6 +134,7 @@ public class PurchasesFragment extends Fragment {
                                 message.setVisibility(View.VISIBLE);
                                 break;
                         }
+                        refreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -141,6 +143,7 @@ public class PurchasesFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         message.setText(getString(R.string.request_error));
                         message.setVisibility(View.VISIBLE);
+                        refreshLayout.setRefreshing(false);
                     }
                 });
     }

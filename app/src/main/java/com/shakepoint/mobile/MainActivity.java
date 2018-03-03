@@ -96,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.signout:
                 signout();
                 return true;
+            /**case R.id.contact:
+                Intent intent = new Intent(this, ContactActivity.class);
+                startActivity(intent);
+                break;**/
+            case R.id.paymentInfo:
+                startActivity(new Intent(this, CardActivity.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);

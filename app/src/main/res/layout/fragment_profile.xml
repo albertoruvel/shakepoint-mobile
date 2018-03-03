@@ -104,15 +104,20 @@
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/profileBirthDate"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <android.support.design.widget.TextInputLayout
+                        app:hintTextAppearance="@style/TextLabel"
                         android:layout_marginBottom="16dp"
-                        android:background="@color/colorPrimary"
-                        android:text="Fecha de nacimiento"
-                        android:textColor="@android:color/white" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/profileBirthDate"
+                            android:inputType="numberDecimal"
+                            android:hint="Fecha de nacimiento"
+                            android:text="DD/MM/YYYY"
+                            android:layout_marginBottom="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
                         android:layout_marginBottom="8dp"

@@ -6,22 +6,27 @@ import android.content.Intent;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shakepoint.mobile.data.internal.CardInfo;
 import com.shakepoint.mobile.data.req.ConfirmPurchaseRequest;
 import com.shakepoint.mobile.data.res.AvailablePurchaseResponse;
 import com.shakepoint.mobile.data.res.ProductResponse;
+import com.shakepoint.mobile.data.res.PurchaseConfirmationResponse;
 import com.shakepoint.mobile.data.res.SimpleQRCodeResponse;
 import com.shakepoint.mobile.retro.RetroFactory;
 import com.shakepoint.mobile.retro.ShopClient;
@@ -111,85 +116,120 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     @OnClick(R.id.productDetailsBuyButton)
     public void buy() {
-        Toast.makeText(this, getString(R.string.imagine), Toast.LENGTH_LONG).show();
+        CardInfo cardInfo = SharedUtils.getCardInfo(this);
+        if (cardInfo != null && cardInfo.getCardNumber() != null) {
+            showCVVAlertDialog(cardInfo);
+        } else {
+            startActivity(new Intent(this, CardActivity.class));
+        }
+    }
+
+    private void showCVVAlertDialog(CardInfo cardInfo) {
+        View cvvInputView = getLayoutInflater().inflate(R.layout.cvv_input, coordinatorLayout, false);
+        final TextInputEditText editText = (TextInputEditText) cvvInputView.findViewById(R.id.inputCvv);
         new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.buy_product))
-                .setPositiveButton(getString(R.string.buy), new DialogInterface.OnClickListener() {
+                .setTitle("Ingresa el código CVV de tu tarjeta")
+                .setView(cvvInputView)
+                .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        progressDialog = new ProgressDialog(ProductDetailsActivity.this);
-                        progressDialog.setMessage(getString(R.string.verifying_product));
-                        progressDialog.setCancelable(false);
-                        progressDialog.setIndeterminate(true);
-                        progressDialog.show();
-                        shopClient.getAvailablePurchaseForMachine(SharedUtils.getAuthenticationHeader(ProductDetailsActivity.this),
-                                productId, SharedUtils.getPreferredMachine(ProductDetailsActivity.this).getMachineId())
-                                .enqueue(new Callback<AvailablePurchaseResponse>() {
-                                    @Override
-                                    public void onResponse(Call<AvailablePurchaseResponse> call, Response<AvailablePurchaseResponse> response) {
-                                        switch (response.code()) {
-                                            case 200:
-                                                if (response.body().getPurchaseId() != null) {
-                                                    progressDialog.setMessage(getString(R.string.syncing_server));
-                                                    shopClient.confirmPurchase(SharedUtils.getAuthenticationHeader(ProductDetailsActivity.this), new ConfirmPurchaseRequest(response.body().getPurchaseId(), "#SOME REFERENCE"))
-                                                            .enqueue(new Callback<SimpleQRCodeResponse>() {
-                                                                @Override
-                                                                public void onResponse(Call<SimpleQRCodeResponse> call, Response<SimpleQRCodeResponse> response) {
-                                                                    switch (response.code()) {
-                                                                        case 200:
+                        String cvvValue = editText.getText().toString();
+                        if (cvvValue.length() != 3) {
+                            Snackbar.make(coordinatorLayout, "Código CVV inválido, intenta de nuevo", BaseTransientBottomBar.LENGTH_LONG).show();
+                            return;
+                        } else {
+                            progressDialog = new ProgressDialog(ProductDetailsActivity.this);
+                            progressDialog.setMessage(getString(R.string.verifying_product));
+                            progressDialog.setCancelable(false);
+                            progressDialog.setIndeterminate(true);
+                            progressDialog.show();
+                            getAvailablePurchase(cvvValue);
+                        }
+                    }
+                }).setNegativeButton(getString(R.string.cancel), null)
+                .create().show();
+    }
 
-                                                                            Toast.makeText(ProductDetailsActivity.this, getString(R.string.thanks), Toast.LENGTH_LONG).show();
-                                                                            //get url
-                                                                            Intent intent = new Intent(ProductDetailsActivity.this, QrCodeActivity.class);
-                                                                            intent.putExtra(QrCodeActivity.QR_CODE_URL, response.body().getImageUrl());
-                                                                            progressDialog.dismiss();
-                                                                            startActivity(intent);
-                                                                            break;
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                public void onFailure(Call<SimpleQRCodeResponse> call, Throwable t) {
-                                                                    Snackbar.make(coordinatorLayout, getString(R.string.request_error), BaseTransientBottomBar.LENGTH_LONG).show();
-                                                                    progressDialog.dismiss();
-                                                                }
-                                                            });
-                                                } else {
-                                                    progressDialog.dismiss();
-                                                    //no purchases available for machine
-                                                    new AlertDialog.Builder(ProductDetailsActivity.this)
-                                                            .setMessage(getString(R.string.offline_machine))
-                                                            .setPositiveButton(getString(R.string.machine_change), new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    startActivity(new Intent(ProductDetailsActivity.this, SearchMachineActivity.class));
-                                                                }
-                                                            })
-                                                            .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    Toast.makeText(ProductDetailsActivity.this, getString(R.string.cancelled), Toast.LENGTH_LONG).show();
-                                                                    finish();
-                                                                }
-                                                            })
-                                                            .create().show();
+    private void getAvailablePurchase(final String cvvValue) {
+        shopClient.getAvailablePurchaseForMachine(SharedUtils.getAuthenticationHeader(ProductDetailsActivity.this),
+                productId, SharedUtils.getPreferredMachine(ProductDetailsActivity.this).getMachineId())
+                .enqueue(new Callback<AvailablePurchaseResponse>() {
+                    @Override
+                    public void onResponse(Call<AvailablePurchaseResponse> call, Response<AvailablePurchaseResponse> response) {
+                        switch (response.code()) {
+                            case 200:
+                                if (response.body().getPurchaseId() != null) {
+                                    progressDialog.setMessage(getString(R.string.syncing_server));
+                                    confirmPurchase(response.body().getPurchaseId(), cvvValue);
+                                } else {
+                                    progressDialog.dismiss();
+                                    //no purchases available for machine
+                                    new AlertDialog.Builder(ProductDetailsActivity.this)
+                                            .setMessage(getString(R.string.offline_machine))
+                                            .setPositiveButton(getString(R.string.machine_change), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    startActivity(new Intent(ProductDetailsActivity.this, SearchMachineActivity.class));
                                                 }
-                                                break;
-                                        }
-                                    }
+                                            })
+                                            .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(ProductDetailsActivity.this, getString(R.string.cancelled), Toast.LENGTH_LONG).show();
+                                                    finish();
+                                                }
+                                            })
+                                            .create().show();
+                                }
+                                break;
+                        }
+                    }
 
-                                    @Override
-                                    public void onFailure(Call<AvailablePurchaseResponse> call, Throwable t) {
-                                        Snackbar.make(coordinatorLayout, getString(R.string.request_error), BaseTransientBottomBar.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(Call<AvailablePurchaseResponse> call, Throwable t) {
+                        Snackbar.make(coordinatorLayout, getString(R.string.request_error), BaseTransientBottomBar.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
+                });
+    }
+
+    private void confirmPurchase(String purchaseId, String cvvValue) {
+        CardInfo cardInfo = SharedUtils.getCardInfo(this);
+        if (cardInfo == null || cardInfo.getCardNumber() == null) {
+            Toast.makeText(this, "Aún no tienes una tarjeta configurada", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, CardActivity.class));
+        } else {
+            shopClient.confirmPurchase(SharedUtils.getAuthenticationHeader(ProductDetailsActivity.this),
+                    new ConfirmPurchaseRequest(purchaseId, cardInfo.getCardNumber().replaceAll("-", ""), cardInfo.getCardExpirationDate(), cvvValue))
+                    .enqueue(new Callback<PurchaseConfirmationResponse>() {
+                        @Override
+                        public void onResponse(Call<PurchaseConfirmationResponse> call, Response<PurchaseConfirmationResponse> response) {
+                            switch (response.code()) {
+                                case 200:
+                                    if (response.body().isSuccess()) {
+                                        Toast.makeText(ProductDetailsActivity.this, getString(R.string.thanks), Toast.LENGTH_LONG).show();
+                                        //get url
+                                        Intent intent = new Intent(ProductDetailsActivity.this, QrCodeActivity.class);
+                                        intent.putExtra(QrCodeActivity.QR_CODE_URL, response.body().getImageUrl());
+                                        progressDialog.dismiss();
+                                        startActivity(intent);
+                                    } else {
+                                        //show message
+                                        Toast.makeText(ProductDetailsActivity.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
                                         progressDialog.dismiss();
                                     }
-                                });
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), null)
-                .create().show();
+                                    break;
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<PurchaseConfirmationResponse> call, Throwable t) {
+                            Snackbar.make(coordinatorLayout, getString(R.string.request_error), BaseTransientBottomBar.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                        }
+                    });
+        }
     }
 
     private void showProductDetails() {

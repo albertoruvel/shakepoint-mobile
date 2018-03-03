@@ -17,8 +17,8 @@
             android:scaleType="fitXY"
             android:transitionName="productLogoTransition"
             android:id="@+id/productItemImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_marginRight="16dp"
             android:src="@mipmap/ic_launcher" />
@@ -51,7 +51,7 @@
                 android:maxLines="1"
                 android:textSize="@dimen/small"
                 android:id="@+id/productItemDescription"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Descripcion muuy lashrfasdgf iashfia hgfdas" />
         </LinearLayout>
