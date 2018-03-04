@@ -25,7 +25,7 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
 
     private List<PurchaseResponse> purchases;
     private View.OnClickListener clickListener;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public PurchasesAdapter(List<PurchaseResponse> purchases, View.OnClickListener clickListener) {
         this.purchases = purchases;
@@ -41,12 +41,25 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
 
     @Override
     public void onBindViewHolder(PurchaseViewHolder holder, int position) {
+        Date date = new Date();
         PurchaseResponse response = purchases.get(position);
         holder.machineName.setText(response.getMachineName());
         holder.productName.setText(response.getProductName());
         try{
-            Date date = dateFormat.parse(response.getPurchaseDate());
-            holder.purchaseDate.setText(dateFormat.format(date));
+            Date purchaseDate = dateFormat.parse(response.getPurchaseDate());
+            long diff = date.getTime() - purchaseDate.getTime();
+            if (diff < 180000){
+                //purchase has less than 3 minutes
+                holder.purchaseDate.setText("Hace un momento");
+            } else if (diff > 180000 && diff < (60000 * 60)){
+                //less than an hour
+                holder.purchaseDate.setText(String.format("Hace %d minutos", (diff / 60000)));
+            } else if (diff > (60000 * 60) && diff < (60000 * 60) * 24){
+                //less than a day
+                holder.purchaseDate.setText(String.format("Hace %d horas", (diff / 3600000)));
+            } else {
+                holder.purchaseDate.setText(dateFormat.format(purchaseDate));
+            }
         }catch(ParseException ex){
 
         }

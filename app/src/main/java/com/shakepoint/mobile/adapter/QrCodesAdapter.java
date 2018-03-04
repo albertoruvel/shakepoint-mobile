@@ -46,8 +46,6 @@ public class QrCodesAdapter extends RecyclerView.Adapter<QrCodesAdapter.QrCodeVi
         holder.productName.setText(response.getProductName());
         final String purchaseDateMessage = String.format(holder.purchaseDate.getContext().getString(R.string.purchase_date), response.getPurchaseDate());
         holder.purchaseDate.setText(purchaseDateMessage);
-
-        //TODO: for testing purposes
         Picasso.with(holder.qrCode.getContext())
                 .load(R.drawable.qrcodeexample)
                 .into(holder.qrCode);

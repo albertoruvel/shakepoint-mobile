@@ -113,7 +113,7 @@ public class SearchMachineActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
                     try{
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 5f, locationListener);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1L, 1f, locationListener);
                     }catch(SecurityException ex){
                         Snackbar.make(coordinatorLayout, getString(R.string.location_error), BaseTransientBottomBar.LENGTH_INDEFINITE).show();
                         return;
@@ -211,6 +211,10 @@ public class SearchMachineActivity extends AppCompatActivity {
                                             Toast.makeText(SearchMachineActivity.this, String.format(getString(R.string.preferredMachineSet),
                                                     adapter.getMachine(position).getMachineName()), Toast.LENGTH_LONG).show();
                                             setResult(RESULT_OK, null);
+                                            if (view != null) {
+                                                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                            }
                                             finish();
                                         }
                                     });

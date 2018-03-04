@@ -21,7 +21,7 @@
     <string name="signing_up">Registrándose en Shakepoint</string>
     <string name="machine_distance">Actualmente, te encuentras a %s metros de la maquina</string>
     <string name="valid_only">Válido solo para %s</string>
-    <string name="purchase_date">Fecha de compra: %s</string>
+    <string name="purchase_date">Fecha: %s</string>
 
     <string name="invalid_passwords">Las contraseñas deben de coincidir</string>
     <string name="exit_question">Seguro que deseas salir?</string>

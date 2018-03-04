@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="normal">20sp</dimen>
-    <dimen name="small">18sp</dimen>
-    <dimen name="big">24sp</dimen>
+    <dimen name="normal">18sp</dimen>
+    <dimen name="small">16sp</dimen>
+    <dimen name="big">22sp</dimen>
     <dimen name="very_small">14sp</dimen>
 </resources>

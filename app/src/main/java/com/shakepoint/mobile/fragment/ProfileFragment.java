@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.shakepoint.mobile.retro.RetroFactory;
 import com.shakepoint.mobile.retro.ShopClient;
 import com.shakepoint.mobile.util.SharedUtils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -80,6 +82,7 @@ public class ProfileFragment extends Fragment {
     private View currentView;
     private ProgressDialog progressDialog;
     private static final ShopClient shopClient = RetroFactory.retrofit().create(ShopClient.class);
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -167,7 +170,6 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
-
         getProfile();
         return currentView;
     }
@@ -185,8 +187,14 @@ public class ProfileFragment extends Fragment {
                                     //set only name, email, cmi user since
                                     name.setText(response.body().getUserName());
                                     email.setText(response.body().getEmail());
-                                    userSince.setText(response.body().getUserSince());
-                                    totalPurchases.setText("" + response.body().getPurchasesTotal());
+                                    try{
+                                        final Date date = dateFormat.parse(response.body().getUserSince());
+                                        userSince.setText(dateFormat.format(date));
+                                    }catch(ParseException ex){
+                                        userSince.setText("N/A");
+                                    }
+
+                                    totalPurchases.setText("$" + response.body().getPurchasesTotal());
                                     cmi.setText("" + SharedUtils.round(response.body().getCmi(), 2));
                                     message.setVisibility(View.VISIBLE);
                                     message.setText("Actualmente no cuentas con un perfil, actualiza tus datos. ");
@@ -273,7 +281,14 @@ public class ProfileFragment extends Fragment {
                             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                                 switch (response.code()) {
                                     case 200:
+                                        cmi.setText("" + SharedUtils.round(response.body().getCmi(), 2));
+                                        totalPurchases.setText("$" + response.body().getPurchasesTotal());
                                         Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), "Perfil actualizado correctamente", Snackbar.LENGTH_LONG).show();
+                                        View view = getActivity().getCurrentFocus();
+                                        if (view != null) {
+                                            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        }
                                         break;
                                     case 500:
                                         Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), getString(R.string.request_error), Snackbar.LENGTH_LONG).show();

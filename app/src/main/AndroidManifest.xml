@@ -28,6 +28,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             />
         <activity
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />

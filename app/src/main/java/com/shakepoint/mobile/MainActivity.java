@@ -1,5 +1,6 @@
 package com.shakepoint.mobile;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.shakepoint.mobile.adapter.TabbedSectionAdapter;
 import com.shakepoint.mobile.fragment.ProfileFragment;
@@ -126,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         finishAffinity();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }
