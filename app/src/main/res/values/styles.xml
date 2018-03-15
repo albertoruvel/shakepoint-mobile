@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    
+
     <style name="ColoredProgressDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/colorPrimary</item>
@@ -21,5 +21,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ProductDetailsAppearance" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:shadowRadius">3</item>
+        <item name="android:shadowColor">@color/colorPrimary</item>
+    </style>
 
 </resources>

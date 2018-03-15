@@ -84,9 +84,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         productId = getIntent().getStringExtra(PRODUCT_ID);
         getProductDetails(productId);
-        setTitle(getString(R.string.product_details));
     }
 
     private void getProductDetails(String productId) {

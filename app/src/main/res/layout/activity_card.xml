@@ -46,11 +46,12 @@
                 android:drawableTint="@color/colorPrimary"
                 android:hint="Número de tarjeta"
                 android:imeOptions="actionNext"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="19" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            app:errorEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

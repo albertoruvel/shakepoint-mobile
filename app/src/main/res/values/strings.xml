@@ -19,7 +19,7 @@
     <string name="save">Guardar</string>
     <string name="signing_in">Iniciando sesión con Shakepoint</string>
     <string name="signing_up">Registrándose en Shakepoint</string>
-    <string name="machine_distance">Actualmente, te encuentras a %s metros de la maquina</string>
+    <string name="machine_distance">Actualmente, ésta es la vending mas cercana</string>
     <string name="valid_only">Válido solo para %s</string>
     <string name="purchase_date">Fecha: %s</string>
 
@@ -37,4 +37,8 @@
     <string name="location_error">No se ha podido obtener la ubicación del dispositivo. Intente de nuevo.</string>
     <string name="thanks">Gracias por tu compra, puedes disponer de tu bebida en el momento que desees mostrando tu código QR</string>
     <string name="offline_machine">Parece que la máquina Shakepoint, por el momento no contiene producto disponible o se encuentra en modo offline.</string>
+    <string name="title_activity_main_drawer">MainDrawerActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

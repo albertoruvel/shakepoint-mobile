@@ -3,23 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.shakepoint.mobile.MainActivity">
 
-    <!--<item
-        android:id="@+id/contact"
-        android:orderInCategory="100"
-        android:title="Contacto"
-        app:showAsAction="never" />-->
-
     <item
-        android:id="@+id/paymentInfo"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:id="@+id/settings"
         android:orderInCategory="100"
-        android:title="Método de pago"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/signout"
-        android:orderInCategory="100"
-        android:title="Salir"
-        app:showAsAction="never" />
-
-
+        android:title="Configuración"
+        app:showAsAction="always" />
 </menu>

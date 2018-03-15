@@ -25,13 +25,12 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".SignupActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:windowSoftInputMode="stateHidden|adjustResize"
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".QrCodeActivity" />
         <activity android:name=".SearchMachineActivity">
             <intent-filter>
@@ -43,8 +42,11 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".ProductDetailsActivity" />
-        <activity android:name=".ContactActivity" />
-        <activity android:name=".CardActivity" android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".CardActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ProfileActivity" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
     </application>
 
 </manifest>

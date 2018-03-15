@@ -37,17 +37,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/searchMachineMainMessage"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/normal"
-            android:text="Busca maquinas por nombre en el menu superior"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/searchMachineMainMessageLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="8dp"
+                android:layout_marginBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/small"
+                android:text="Puedes buscar tus vendings Shakepoint usando solo el nombre del gimnasio donde esta ubicada, o puedes usar la ubicación de tu dispositivo para buscarla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/searchMachineButton"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                android:text="Buscar vending usando ubucación"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:visibility="gone"
@@ -86,6 +106,10 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="?attr/selectableItemBackground"
+            android:focusable="true"
+            android:clickable="true"
             android:visibility="gone"
             android:elevation="4dp"
             app:contentPadding="16dp"

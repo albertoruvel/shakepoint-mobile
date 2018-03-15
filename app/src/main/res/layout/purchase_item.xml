@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
+    android:focusable="true"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
+    android:foreground="?android:attr/selectableItemBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="1dp"
@@ -10,62 +14,60 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_marginBottom="6dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/purchaseItemMachineName"
-                android:scrollHorizontally="true"
-                android:maxLines="1"
-                android:ellipsize="end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:layout_marginRight="6dp"
                 android:layout_weight=".7"
-                android:layout_marginBottom="12dp"
-                android:textSize="@dimen/normal"
-                android:text="Maquina numero 1 que no se que"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textSize="@dimen/normal" />
 
             <TextView
                 android:id="@+id/purchaseItemDate"
-                android:gravity="end"
-                android:layout_weight=".3"
-                android:textSize="@dimen/very_small"
-                android:text="12/12/1990"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:gravity="end"
+                android:textSize="@dimen/very_small" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/purchaseItemProductName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:ellipsize="end"
                 android:maxLines="1"
                 android:scrollHorizontally="true"
-                android:ellipsize="end"
-                android:textSize="@dimen/normal"
-                android:text="Producto numero 1"
-                android:layout_weight=".7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/normal" />
+
             <TextView
                 android:id="@+id/purchaseItemPrice"
-                android:textSize="@dimen/normal"
-                android:textColor="@color/colorPrimaryDark"
-                android:gravity="end"
-                android:text="$29.99"
-                android:layout_weight=".3"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:gravity="end"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/normal" />
         </LinearLayout>
 
 

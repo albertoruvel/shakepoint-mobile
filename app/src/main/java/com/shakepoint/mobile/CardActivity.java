@@ -1,27 +1,36 @@
 package com.shakepoint.mobile;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shakepoint.mobile.util.SharedUtils;
 import com.shakepoint.mobile.watcher.BankCardFormatWatcher;
 import com.shakepoint.mobile.watcher.ExpirationDateFormatWatcher;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CardActivity extends AppCompatActivity {
+
+    public static final String CARD_SAVED = "cardSavedResult";
 
     @BindView(R.id.cardNumber)
     TextInputEditText cardNumber;
@@ -36,11 +45,88 @@ public class CardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cardNumber.addTextChangedListener(new BankCardFormatWatcher());
-        cardExpirationDate.addTextChangedListener(new ExpirationDateFormatWatcher());
+        cardExpirationDate.addTextChangedListener(new TextWatcher() {
+            private String mLastInput = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/yy");
+                Calendar expiryDateDate = Calendar.getInstance();
+
+                try {
+                    Integer currentYear = expiryDateDate.get(Calendar.YEAR);
+                    expiryDateDate.setTime(formatter.parse(input));
+                    //check if year is in the past
+                    Integer expirationyear = Integer.parseInt(s.toString().split("/")[1]);
+                    expirationyear += 2000; //we are on 2018, so..
+                    Integer expirationMonth = Integer.parseInt(s.toString().split("/")[0]);
+                    Integer currentMonth = expiryDateDate.get(Calendar.MONTH) + 1;
+
+                    if (expirationyear < currentYear){
+                        cardExpirationDate.setError("La tarjeta ya ha expirado");
+                    }else if (expirationyear == currentYear){
+                        //same year, must check month
+                        if (expirationMonth < currentMonth){
+                            cardExpirationDate.setError("La tarjeta ya ha expirado");
+                        }else{
+                            cardExpirationDate.setError(null);
+                        }
+                        cardExpirationDate.setError(null);
+                    }
+                } catch (ParseException e) {
+                    if (s.length() == 2 && !mLastInput.endsWith("/")) {
+                        int month = Integer.parseInt(input);
+                        if (month <= 12) {
+                            cardExpirationDate.setText(cardExpirationDate.getText().toString() + "/");
+                            cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
+                        } else {
+                            cardExpirationDate.setText("");
+                            cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
+                        }
+                    } else if (s.length() == 2 && mLastInput.endsWith("/")) {
+                        int month = Integer.parseInt(input);
+                        if (month <= 12) {
+                            cardExpirationDate.setText(cardExpirationDate.getText().toString().substring(0, 1));
+                            cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
+                        } else {
+                            cardExpirationDate.setText("");
+                            cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
+                        }
+                    } else if (s.length() == 1) {
+                        try{
+                            int month = Integer.parseInt(input);
+                            if (month > 1) {
+                                cardExpirationDate.setText("0" + cardExpirationDate.getText().toString() + "/");
+                                cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
+                            }
+                        }catch(NumberFormatException ex){
+                            //not valid character
+                            Toast.makeText(CardActivity.this, "Sólo se permiten valores numéricos", Toast.LENGTH_LONG).show();
+                            s.clear();
+                        }
+                    }
+
+                    mLastInput = cardExpirationDate.getText().toString();
+                    return;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -53,6 +139,7 @@ public class CardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(RESULT_CANCELED);
                 finish();
                 break;
             case R.id.saveCard:
@@ -81,6 +168,9 @@ public class CardActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             SharedUtils.saveCardInfo(CardActivity.this, cardNumberValue, cardExpirationDateValue);
                             Toast.makeText(CardActivity.this, "Se han guardados los datos de tu tarjeta", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent();
+                            intent.putExtra(CARD_SAVED, Boolean.TRUE);
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                     })

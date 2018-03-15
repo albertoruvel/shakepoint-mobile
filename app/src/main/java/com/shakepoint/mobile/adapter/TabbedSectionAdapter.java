@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.shakepoint.mobile.fragment.ActiveCodesFragment;
 import com.shakepoint.mobile.fragment.ProductsFragment;
-import com.shakepoint.mobile.fragment.ProfileFragment;
 import com.shakepoint.mobile.fragment.PurchasesFragment;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class TabbedSectionAdapter extends FragmentPagerAdapter {
         fragments.add(ProductsFragment.newInstance());
         fragments.add(PurchasesFragment.newInstance());
         fragments.add(ActiveCodesFragment.newInstance());
-        fragments.add(ProfileFragment.newInstance());
         //TODO: add more here
     }
 
@@ -52,11 +50,9 @@ public class TabbedSectionAdapter extends FragmentPagerAdapter {
             case 0:
                 return "PRODUCTOS";
             case 1:
-                return "MIS COMPRAS";
+                return "COMPRAS";
             case 2:
                 return "CODIGOS ACTIVOS";
-            case 3:
-                return "PERFIL";
         }
         return null;
     }

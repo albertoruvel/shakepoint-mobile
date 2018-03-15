@@ -55,6 +55,8 @@
                 android:layout_height="match_parent"/>
 
             <TextView
+                android:layout_margin="8dp"
+                android:gravity="center"
                 android:visibility="gone"
                 android:id="@+id/productsMessage"
                 android:textColor="@color/colorPrimary"

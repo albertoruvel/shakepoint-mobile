@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.support.v7.widget.SearchView;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchMachineActivity extends AppCompatActivity {
-
 
 
     @BindView(R.id.searchMachineCard)
@@ -78,12 +78,9 @@ public class SearchMachineActivity extends AppCompatActivity {
     @BindView(R.id.searchMachineMainProgressBar)
     ProgressBar mainProgressBar;
 
-    @BindView(R.id.searchMachineMainMessage)
-    TextView mainMessage;
+    @BindView(R.id.searchMachineMainMessageLayout)
+    LinearLayout mainMessageLayout;
 
-    private static final int SEARCH_BY_NAME = 0;
-    private static final int SEARCH_BY_LOCATION = 1;
-    private int currentSearch = 0;
     private MachinesAdapter adapter;
 
     private LocationManager locationManager;
@@ -103,6 +100,7 @@ public class SearchMachineActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -111,10 +109,10 @@ public class SearchMachineActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-                    try{
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    try {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1L, 1f, locationListener);
-                    }catch(SecurityException ex){
+                    } catch (SecurityException ex) {
                         Snackbar.make(coordinatorLayout, getString(R.string.location_error), BaseTransientBottomBar.LENGTH_INDEFINITE).show();
                         return;
                     }
@@ -127,68 +125,46 @@ public class SearchMachineActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                setResult(RESULT_CANCELED);
-                finish();
-                break;
-            case R.id.searchByLocation:
-                currentSearch = SEARCH_BY_LOCATION;
-                invalidateOptionsMenu();
-                recyclerView.setVisibility(View.GONE);
-                searchMachineCard.setVisibility(View.VISIBLE);
-                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
-                        LOCATION_PERMISSION_REQUEST_CODE);
-                mainMessage.setVisibility(View.GONE);
-                break;
-            case R.id.searchByName:
-                currentSearch = SEARCH_BY_NAME;
-                invalidateOptionsMenu();
-                showSearchByNameView();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    @OnClick(R.id.searchMachineButton)
+    public void searchMachineByLocation() {
+        recyclerView.setVisibility(View.GONE);
+        searchMachineCard.setVisibility(View.VISIBLE);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                LOCATION_PERMISSION_REQUEST_CODE);
+        mainMessageLayout.setVisibility(View.GONE);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        switch (currentSearch){
-            case SEARCH_BY_LOCATION:
-                getMenuInflater().inflate(R.menu.menu_search_machine_location, menu);
-                break;
-            case SEARCH_BY_NAME:
-                getMenuInflater().inflate(R.menu.menu_search_machine, menu);
-                SearchManager searchManager = (SearchManager)getSystemService(SEARCH_SERVICE);
-                SearchView searchView = (SearchView)menu.findItem(R.id.search).getActionView();
-                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-                searchView.setMaxWidth(Integer.MAX_VALUE);
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        if (query.isEmpty())return false;
-                        searchMachines(query);
-                        hideKeyboard();
-                        return true;
-                    }
 
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        if (newText.isEmpty())return false;
-                        searchMachines(newText);
-                        return false;
-                    }
-                });
-                break;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search_machine, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.isEmpty()) return false;
+                searchMachines(query);
+                hideKeyboard();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) return false;
+                searchMachines(newText);
+                return false;
+            }
+        });
         return true;
     }
 
     private void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -198,11 +174,11 @@ public class SearchMachineActivity extends AppCompatActivity {
                 .enqueue(new Callback<List<MachineSearchResponse>>() {
                     @Override
                     public void onResponse(Call<List<MachineSearchResponse>> call, Response<List<MachineSearchResponse>> response) {
-                        switch(response.code()){
+                        switch (response.code()) {
                             case 200:
-                                if (response.body().isEmpty()){
+                                if (response.body().isEmpty()) {
 
-                                }else{
+                                } else {
                                     adapter = new MachinesAdapter(response.body(), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -212,7 +188,7 @@ public class SearchMachineActivity extends AppCompatActivity {
                                                     adapter.getMachine(position).getMachineName()), Toast.LENGTH_LONG).show();
                                             setResult(RESULT_OK, null);
                                             if (view != null) {
-                                                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                             }
                                             finish();
@@ -236,8 +212,19 @@ public class SearchMachineActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setResult(RESULT_CANCELED);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @OnClick(R.id.searchMachineSelectButton)
-    public void searchMachineSelectButtonClick(){
+    public void searchMachineSelectButtonClick() {
         SharedUtils.setPreferredMachine(this, machineSearchResponse);
         Toast.makeText(this, String.format(getString(R.string.preferredMachineSet),
                 machineSearchResponse.getMachineName()), Toast.LENGTH_SHORT).show();
@@ -254,24 +241,24 @@ public class SearchMachineActivity extends AppCompatActivity {
             double latitude = location.getLatitude();
 
             shopClient.searchClosestMachine(SharedUtils.getAuthenticationHeader(SearchMachineActivity.this), latitude, longitude)
-                .enqueue(new Callback<MachineSearchResponse>() {
-                    @Override
-                    public void onResponse(Call<MachineSearchResponse> call, Response<MachineSearchResponse> response) {
-                        switch(response.code()){
-                            case 200:
-                                //show
-                                showClosestMachine(response.body());
-                                break;
-                            case 500:
-                                break;
+                    .enqueue(new Callback<MachineSearchResponse>() {
+                        @Override
+                        public void onResponse(Call<MachineSearchResponse> call, Response<MachineSearchResponse> response) {
+                            switch (response.code()) {
+                                case 200:
+                                    //show
+                                    showClosestMachine(response.body());
+                                    break;
+                                case 500:
+                                    break;
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<MachineSearchResponse> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<MachineSearchResponse> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
         }
 
         @Override
@@ -291,29 +278,26 @@ public class SearchMachineActivity extends AppCompatActivity {
     };
 
     private void showClosestMachine(MachineSearchResponse body) {
-        if (currentSearch == SEARCH_BY_NAME){
-            return;
-        }
         machineName.setText(body.getMachineName());
-        machineDistance.setText(String.format(getString(R.string.machine_distance), String.valueOf(SharedUtils.round(body.getDistance(), 2))));
+        machineDistance.setText(getString(R.string.machine_distance));
         searchMachineCard.setVisibility(View.GONE);
         searchMachineResult.setVisibility(View.VISIBLE);
         machineSearchResponse = body;
     }
 
-    private void showLocationView(){
+    private void showLocationView() {
         //hide recycler view
         recyclerView.setVisibility(View.GONE);
         mainProgressBar.setVisibility(View.GONE);
-        mainMessage.setVisibility(View.GONE);
+        mainMessageLayout.setVisibility(View.GONE);
         searchMachineCard.setVisibility(View.VISIBLE);
     }
 
-    private void showSearchByNameView(){
+    private void showSearchByNameView() {
         searchMachineCard.setVisibility(View.GONE);
         searchMachineResult.setVisibility(View.GONE);
         mainProgressBar.setVisibility(View.GONE);
-        mainMessage.setVisibility(View.GONE);
+        mainMessageLayout.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
     }
 }

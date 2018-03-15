@@ -9,12 +9,25 @@ import com.shakepoint.mobile.data.res.MachineSearchResponse;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 /**
  * Created by jose.rubalcaba on 02/13/2018.
  */
 
 public class SharedUtils {
+
+    public static final DateFormat LOCAL_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+    public static final DateFormat LOCAL_SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    public static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+
+
+    static {
+        LOCAL_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-7"));
+    }
 
     private static final String AUTH_TOKEN = "shakepoint-auth-token";
     private static final String CARD_INFO = "shakepoint-internal-card-info";
@@ -70,7 +83,7 @@ public class SharedUtils {
     public static void saveCardInfo(Context cxt, String cardNumber, String cardExpirationDate) {
         cxt.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
                 .edit()
-                .putString(CARD_INFO, new Gson().toJson(new CardInfo(cardNumber.replace("-", ""), cardExpirationDate.replaceAll("/", ""))))
+                .putString(CARD_INFO, new Gson().toJson(new CardInfo(cardNumber, cardExpirationDate.replaceAll("/", ""))))
                 .commit();
     }
 }

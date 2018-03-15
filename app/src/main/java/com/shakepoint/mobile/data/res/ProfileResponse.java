@@ -9,7 +9,6 @@ public class ProfileResponse {
     private String userId;
     private String userSince;
     private boolean availableProfile;
-    private int age;
     private String birthday;
     private double weight;
     private double height;
@@ -47,14 +46,6 @@ public class ProfileResponse {
 
     public void setAvailableProfile(boolean availableProfile) {
         this.availableProfile = availableProfile;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getBirthday() {

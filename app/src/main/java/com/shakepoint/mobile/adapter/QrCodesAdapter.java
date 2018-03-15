@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import com.shakepoint.mobile.R;
 import com.shakepoint.mobile.data.res.QrCodeResponse;
+import com.shakepoint.mobile.util.SharedUtils;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,8 +47,12 @@ public class QrCodesAdapter extends RecyclerView.Adapter<QrCodesAdapter.QrCodeVi
         final String validMessage = String.format(holder.machineName.getContext().getString(R.string.valid_only), response.getMachineName());
         holder.machineName.setText(validMessage);
         holder.productName.setText(response.getProductName());
-        final String purchaseDateMessage = String.format(holder.purchaseDate.getContext().getString(R.string.purchase_date), response.getPurchaseDate());
-        holder.purchaseDate.setText(purchaseDateMessage);
+        Date date = new Date();
+        try{
+            final Date purchaseDate = SharedUtils.LOCAL_DATE_FORMAT.parse(response.getPurchaseDate());
+            holder.purchaseDate.setText(SharedUtils.LOCAL_DATE_FORMAT.format(purchaseDate));
+        }catch(ParseException ex){
+        }
         Picasso.with(holder.qrCode.getContext())
                 .load(R.drawable.qrcodeexample)
                 .into(holder.qrCode);

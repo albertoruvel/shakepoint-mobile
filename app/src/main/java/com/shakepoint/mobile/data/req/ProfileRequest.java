@@ -5,23 +5,14 @@ package com.shakepoint.mobile.data.req;
  */
 
 public class ProfileRequest {
-    private int age;
     private double height;
     private double weight;
     private String birthday;
 
-    public ProfileRequest(int age, double height, double weight, String birthday) {
-        this.age = age;
+    public ProfileRequest(double height, double weight, String birthday) {
         this.height = height;
         this.weight = weight;
         this.birthday = birthday;
-    }
-
-    public int getAge() {
-        return age;
-    }
-    public void setAge(int age) {
-        this.age = age;
     }
     public double getHeight() {
         return height;

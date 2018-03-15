@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.shakepoint.mobile.R;
 import com.shakepoint.mobile.data.res.PurchaseResponse;
+import com.shakepoint.mobile.util.SharedUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,11 +22,10 @@ import butterknife.ButterKnife;
  * Created by jose.rubalcaba on 02/12/2018.
  */
 
-public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.PurchaseViewHolder>{
+public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.PurchaseViewHolder> {
 
     private List<PurchaseResponse> purchases;
     private View.OnClickListener clickListener;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public PurchasesAdapter(List<PurchaseResponse> purchases, View.OnClickListener clickListener) {
         this.purchases = purchases;
@@ -45,23 +45,10 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
         PurchaseResponse response = purchases.get(position);
         holder.machineName.setText(response.getMachineName());
         holder.productName.setText(response.getProductName());
-        try{
-            Date purchaseDate = dateFormat.parse(response.getPurchaseDate());
-            long diff = date.getTime() - purchaseDate.getTime();
-            if (diff < 180000){
-                //purchase has less than 3 minutes
-                holder.purchaseDate.setText("Hace un momento");
-            } else if (diff > 180000 && diff < (60000 * 60)){
-                //less than an hour
-                holder.purchaseDate.setText(String.format("Hace %d minutos", (diff / 60000)));
-            } else if (diff > (60000 * 60) && diff < (60000 * 60) * 24){
-                //less than a day
-                holder.purchaseDate.setText(String.format("Hace %d horas", (diff / 3600000)));
-            } else {
-                holder.purchaseDate.setText(dateFormat.format(purchaseDate));
-            }
-        }catch(ParseException ex){
-
+        try {
+            Date purchaseDate = SharedUtils.LOCAL_SIMPLE_DATE_FORMAT.parse(response.getPurchaseDate());
+            holder.purchaseDate.setText(SharedUtils.LOCAL_DATE_FORMAT.format(purchaseDate));
+        } catch (ParseException ex) {
         }
 
         holder.purchaseTotal.setText("$" + response.getTotal());
@@ -72,7 +59,7 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
         return purchases.size();
     }
 
-    static class PurchaseViewHolder extends RecyclerView.ViewHolder{
+    static class PurchaseViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.purchaseItemDate)
         TextView purchaseDate;
