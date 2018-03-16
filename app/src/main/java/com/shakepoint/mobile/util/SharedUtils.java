@@ -13,6 +13,7 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 /**
  * Created by jose.rubalcaba on 02/13/2018.
@@ -23,6 +24,8 @@ public class SharedUtils {
     public static final DateFormat LOCAL_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
     public static final DateFormat LOCAL_SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     public static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 
     static {
@@ -85,5 +88,9 @@ public class SharedUtils {
                 .edit()
                 .putString(CARD_INFO, new Gson().toJson(new CardInfo(cardNumber, cardExpirationDate.replaceAll("/", ""))))
                 .commit();
+    }
+
+    public static boolean isEmailValid(String email){
+        return EMAIL_PATTERN.matcher(email).find();
     }
 }

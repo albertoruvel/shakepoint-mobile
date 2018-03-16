@@ -2,6 +2,7 @@ package com.shakepoint.mobile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -77,13 +78,13 @@ public class CardActivity extends AppCompatActivity {
                     Integer expirationMonth = Integer.parseInt(s.toString().split("/")[0]);
                     Integer currentMonth = expiryDateDate.get(Calendar.MONTH) + 1;
 
-                    if (expirationyear < currentYear){
+                    if (expirationyear < currentYear) {
                         cardExpirationDate.setError("La tarjeta ya ha expirado");
-                    }else if (expirationyear == currentYear){
+                    } else if (expirationyear == currentYear) {
                         //same year, must check month
-                        if (expirationMonth < currentMonth){
+                        if (expirationMonth < currentMonth) {
                             cardExpirationDate.setError("La tarjeta ya ha expirado");
-                        }else{
+                        } else {
                             cardExpirationDate.setError(null);
                         }
                         cardExpirationDate.setError(null);
@@ -108,13 +109,13 @@ public class CardActivity extends AppCompatActivity {
                             cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
                         }
                     } else if (s.length() == 1) {
-                        try{
+                        try {
                             int month = Integer.parseInt(input);
                             if (month > 1) {
                                 cardExpirationDate.setText("0" + cardExpirationDate.getText().toString() + "/");
                                 cardExpirationDate.setSelection(cardExpirationDate.getText().toString().length());
                             }
-                        }catch(NumberFormatException ex){
+                        } catch (NumberFormatException ex) {
                             //not valid character
                             Toast.makeText(CardActivity.this, "Sólo se permiten valores numéricos", Toast.LENGTH_LONG).show();
                             s.clear();
@@ -152,6 +153,19 @@ public class CardActivity extends AppCompatActivity {
     private void saveCard() {
         final String cardNumberValue = cardNumber.getText().toString();
         final String cardExpirationDateValue = cardExpirationDate.getText().toString();
+        //split
+        final String[] array = cardNumberValue.split(" ");
+        for (String chunk : array) {
+            try{
+                Integer.parseInt(chunk);
+            }catch(NumberFormatException ex){
+                //we got an invalid card number
+                showErrorMessage("La tarjeta es inválida, intenta de nuevo");
+                cardNumber.setText("");
+                cardNumber.requestFocus();
+                return;
+            }
+        }
 
         if (cardNumberValue.length() != 19) {
             //show error message

@@ -228,7 +228,7 @@ public class SearchMachineActivity extends AppCompatActivity {
         SharedUtils.setPreferredMachine(this, machineSearchResponse);
         Toast.makeText(this, String.format(getString(R.string.preferredMachineSet),
                 machineSearchResponse.getMachineName()), Toast.LENGTH_SHORT).show();
-        setResult(RESULT_CANCELED);
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -256,7 +256,7 @@ public class SearchMachineActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<MachineSearchResponse> call, Throwable t) {
-
+                            Snackbar.make(coordinatorLayout, "Ha ocurrido un error al buscar la vending, inténtalo de nuevo", Snackbar.LENGTH_LONG).show();
                         }
                     });
         }

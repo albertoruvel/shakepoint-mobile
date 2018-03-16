@@ -10,7 +10,7 @@ import android.text.TextWatcher;
 
 public class BankCardFormatWatcher implements TextWatcher {
 
-    private static final char space = '-';
+    private static final char space = ' ';
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

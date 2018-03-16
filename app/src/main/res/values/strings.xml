@@ -9,8 +9,8 @@
     <string name="required_name">Debes de proporcionar un nombre</string>
     <string name="required_password_confirmation">Debes de confirmar tu contraseña</string>
     <string name="required_age">Debes de proporcionar tu edad</string>
-    <string name="required_weight">Debes de proporcionar tu peso en KG.</string>
-    <string name="required_height">Debes de proporcionar tu altura en Mts.</string>
+    <string name="required_weight">Debes de proporcionar tu peso en kilogramos.</string>
+    <string name="required_height">Debes de proporcionar tu altura en centímetros.</string>
     <string name="required_birthdate">Debes de proporcionar tu fecha de nacimiento.</string>
     <string name="noPreferredMachine">No has configurado tu máquina preferida, selecciona esta opción desde el menú superior</string>
     <string name="preferredMachineSet">Has seleccionado %s como tu máquina preferida</string>

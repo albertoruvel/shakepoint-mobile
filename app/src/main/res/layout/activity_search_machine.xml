@@ -147,7 +147,7 @@
                 <TextView
                     android:layout_marginBottom="12dp"
                     android:textSize="@dimen/small"
-                    android:text="Puedes buscar esta máquina en el gimnasio con el nombre indicado,"
+                    android:text="Puedes buscar esta máquina en el gimnasio con el nombre indicado."
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

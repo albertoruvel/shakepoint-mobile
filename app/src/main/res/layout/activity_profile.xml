@@ -103,9 +103,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <android.support.design.widget.TextInputEditText
+                                android:maxLength="3"
                                 android:id="@+id/profileWeight"
                                 android:inputType="numberDecimal"
-                                android:hint="Peso"
+                                android:hint="Peso (Kg)"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </android.support.design.widget.TextInputLayout>
@@ -118,7 +119,8 @@
                             <android.support.design.widget.TextInputEditText
                                 android:id="@+id/profileHeight"
                                 android:inputType="numberDecimal"
-                                android:hint="Altura"
+                                android:maxLength="3"
+                                android:hint="Altura (Cm)"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </android.support.design.widget.TextInputLayout>
@@ -141,12 +143,13 @@
                         <LinearLayout
                             android:layout_marginBottom="4dp"
                             android:padding="8dp"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_weight=".6"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:text="Edad"
@@ -154,8 +157,10 @@
                                 android:textSize="@dimen/normal" />
 
                             <TextView
+                                android:gravity="center"
+                                android:layout_weight=".4"
                                 android:id="@+id/profileAge"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/normal" />
                         </LinearLayout>
@@ -163,13 +168,14 @@
                         <LinearLayout
                             android:layout_marginBottom="4dp"
                             android:padding="8dp"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:layout_weight=".6"
                                 android:id="@+id/textView"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:text="Fecha de registro"
@@ -177,8 +183,10 @@
                                 android:textSize="@dimen/normal" />
 
                             <TextView
+                                android:gravity="center"
+                                android:layout_weight=".4"
                                 android:id="@+id/profileUserSince"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/normal" />
                         </LinearLayout>
@@ -186,13 +194,14 @@
                         <LinearLayout
                             android:layout_marginBottom="4dp"
                             android:padding="8dp"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:layout_weight=".6"
                                 android:id="@+id/textView3"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:text="Total en compras"
@@ -200,9 +209,11 @@
                                 android:textSize="@dimen/normal" />
 
                             <TextView
+                                android:gravity="center"
+                                android:layout_weight=".4"
                                 android:textSize="@dimen/normal"
                                 android:id="@+id/profileTotalPurchases"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content" />
 
                         </LinearLayout>
@@ -210,23 +221,26 @@
                         <LinearLayout
                             android:layout_marginBottom="4dp"
                             android:padding="8dp"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:layout_weight=".6"
                                 android:id="@+id/textView2"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
-                                android:text="Indice de masa corporal"
+                                android:text="Indice Masa Corporal"
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/normal" />
 
                             <TextView
+                                android:gravity="center"
+                                android:layout_weight=".4"
                                 android:id="@+id/profileCmi"
                                 android:textSize="@dimen/normal"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
                     </LinearLayout>

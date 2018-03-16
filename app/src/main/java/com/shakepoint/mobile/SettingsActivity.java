@@ -1,13 +1,18 @@
 package com.shakepoint.mobile;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.shakepoint.mobile.data.internal.CardInfo;
@@ -25,6 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+
     private static final int CARD_ACTIVITY_REQUEST_CODE = 123;
 
     @Override
@@ -40,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setCardInfo(CardInfo cardInfo) {
         if (cardInfo != null) {
-            final String[] groups = cardInfo.getCardNumber().split("-");
+            final String[] groups = cardInfo.getCardNumber().split(" ");
             //get last group of digits
             cardTermination.setText("Terminación de tarjeta *" + groups[3]);
         } else {
@@ -74,13 +82,23 @@ public class SettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.settingsContact)
     public void profileContact() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setData(Uri.parse("mailto:"));
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"alexfp1107@gmail.com", "m.industrialdesigns@gmail.com", "albertoruvel@gmail.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Shakepoint application contact");
-        intent.putExtra(Intent.EXTRA_TEXT, "Escribe tu mensaje :)");
-        startActivity(intent);
+        try{
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setData(Uri.parse("mailto:"));
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"alexfp1107@gmail.com", "m.industrialdesigns@gmail.com", "albertoruvel@gmail.com"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Shakepoint application contact");
+            intent.putExtra(Intent.EXTRA_TEXT, "Escribe tu mensaje :)");
+            startActivity(intent);
+        }catch(ActivityNotFoundException ex){
+            Snackbar.make(coordinatorLayout, "No se ha encontrado tu aplicación default para enviar correos electrónicos, ve a configuración y seleccionala",Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Ajustes", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivityForResult(new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS), 0);
+                        }
+                    }).show();
+        }
     }
 
     @OnClick(R.id.settingsSignout)

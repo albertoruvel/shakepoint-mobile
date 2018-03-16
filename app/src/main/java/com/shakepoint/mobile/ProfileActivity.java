@@ -2,7 +2,6 @@ package com.shakepoint.mobile;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -81,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private static final ShopClient shopClient = RetroFactory.retrofit().create(ShopClient.class);
-    private static final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private static final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,8 +221,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     name.setText(response.body().getUserName());
                                     email.setText(response.body().getEmail());
                                     try {
-                                        final Date date = dateFormat.parse(response.body().getUserSince());
-                                        userSince.setText(dateFormat.format(date));
+                                        userSince.setText(getShortDate(response.body().getUserSince()));
                                     } catch (ParseException ex) {
                                         userSince.setText("N/A");
                                     }
@@ -246,12 +244,22 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
+    private String getShortDate(String userSince) throws ParseException {
+        final Date date = dateFormat.parse(userSince);
+        String dateValue = SharedUtils.SIMPLE_DATE_FORMAT.format(date);
+        return dateValue;
+    }
+
     private void populateProfile(ProfileResponse body) {
         name.setText(body.getUserName());
         age.setText("" + getAge(body.getBirthday()));
         weight.setText("" + body.getWeight());
         height.setText("" + body.getHeight());
-        userSince.setText("" + body.getUserSince());
+        try{
+            userSince.setText(getShortDate(body.getUserSince()));
+        }catch(ParseException ex){
+
+        }
         totalPurchases.setText("" + body.getPurchasesTotal());
         email.setText(body.getEmail());
 
@@ -287,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             //validate birthdate
             try {
-                Date date = dateFormat.parse(birthDateValue); //this will throw exception when no birthdate is set
+                Date date = SharedUtils.SIMPLE_DATE_FORMAT.parse(birthDateValue); //this will throw exception when no birthdate is set
                 progressDialog = new ProgressDialog(this, R.style.ColoredProgressDialog);
                 progressDialog.setMessage("Guardando perfil");
                 progressDialog.setIndeterminate(true);

@@ -61,6 +61,12 @@ public class ActiveCodesFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        getActiveCodes();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

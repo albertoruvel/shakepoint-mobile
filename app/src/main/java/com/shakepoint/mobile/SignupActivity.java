@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import com.shakepoint.mobile.data.req.SignupRequest;
@@ -46,6 +47,20 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (! b){
+                    //lost focus
+                    if (SharedUtils.isEmailValid(email.getText().toString())){
+                        //email valid
+                        email.setError(null);
+                    }else {
+                        email.setError("Formato de email inválido");
+                    }
+                }
+            }
+        });
     }
 
     @OnClick(R.id.signupButton)

@@ -91,6 +91,12 @@ public class PurchasesFragment extends Fragment {
         return currentView;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        getPurchases();
+    }
+
 
     @Override
     public void onAttach(Context context) {

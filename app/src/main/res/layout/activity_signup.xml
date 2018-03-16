@@ -31,6 +31,8 @@
                 android:layout_marginBottom="16dp">
 
                 <android.support.design.widget.TextInputEditText
+                    android:maxLines="1"
+                    android:maxLength="100"
                     android:inputType="textCapWords"
                     android:id="@+id/signupName"
                     android:layout_width="match_parent"
@@ -45,6 +47,8 @@
                 android:layout_marginBottom="16dp">
 
                 <android.support.design.widget.TextInputEditText
+                    android:maxLines="1"
+                    android:maxLength="100"
                     android:id="@+id/signupEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -60,6 +64,8 @@
                 app:passwordToggleEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
+                    android:maxLength="100"
+                    android:maxLines="1"
                     android:id="@+id/signupPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,6 +81,8 @@
                 app:passwordToggleEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
+                    android:maxLength="100"
+                    android:maxLines="1"
                     android:id="@+id/signupPassword2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
