@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            app:title="Buscar vending"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -60,7 +61,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorAccent"
                 android:textColor="@android:color/white"
                 style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
                 android:text="Buscar vending usando ubucación"

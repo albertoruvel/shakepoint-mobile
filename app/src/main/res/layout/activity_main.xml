@@ -17,17 +17,24 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            <ImageView
+                android:scaleType="fitXY"
+                android:layout_gravity="start"
+                android:layout_width="140dp"
+                android:src="@drawable/black_logo"
+                android:layout_height="28dp" />
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
-            app:tabTextColor="@color/colorPrimary"
+            app:tabTextColor="@android:color/white"
             app:tabGravity="center"
-            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorColor="@color/colorAccent"
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -49,7 +49,7 @@ public class PurchasesFragment extends Fragment {
     SwipeRefreshLayout refreshLayout;
 
     private View currentView;
-    private final ShopClient shopClient = RetroFactory.retrofit().create(ShopClient.class);
+    private ShopClient shopClient;
     private Object purchases;
     private PurchasesAdapter adapter;
 
@@ -66,6 +66,7 @@ public class PurchasesFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        shopClient = RetroFactory.retrofit(getActivity()).create(ShopClient.class);
         super.onCreate(savedInstanceState);
     }
 

@@ -12,33 +12,32 @@
     <string name="required_weight">Debes de proporcionar tu peso en kilogramos.</string>
     <string name="required_height">Debes de proporcionar tu altura en centímetros.</string>
     <string name="required_birthdate">Debes de proporcionar tu fecha de nacimiento.</string>
-    <string name="noPreferredMachine">No has configurado tu máquina preferida, selecciona esta opción desde el menú superior</string>
-    <string name="preferredMachineSet">Has seleccionado %s como tu máquina preferida</string>
+    <string name="noPreferredMachine">No has configurado tu vending preferida, selecciona esta opción desde el menú superior</string>
+    <string name="preferredMachineSet">Has seleccionado %s como tu vending preferida</string>
     <string name="exit">Salir</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
     <string name="signing_in">Iniciando sesión con Shakepoint</string>
     <string name="signing_up">Registrándose en Shakepoint</string>
     <string name="machine_distance">Actualmente, ésta es la vending mas cercana</string>
-    <string name="valid_only">Válido solo para %s</string>
+    <string name="valid_only">Válido sólo para %s</string>
     <string name="purchase_date">Fecha: %s</string>
+    <string name="cvvHelpMessage">El código de seguridad es aquel que se encuentra detrás de tu tarjeta, contiene 3 dígitos y es único para cada tarjeta.</string>
 
     <string name="invalid_passwords">Las contraseñas deben de coincidir</string>
     <string name="exit_question">Seguro que deseas salir?</string>
     <string name="product_details">Detalles de producto</string>
-    <string name="imagine">Imaginemos que ya se hizo la compra desde el método de pago elegido</string>
-    <string name="buy_product">Seguro que deseas comprar este producto para la máquina?</string>
+    <string name="buy_product">Seguro que deseas comprar este producto para la vending?</string>
     <string name="buy">Comprar</string>
     <string name="permissions_error">Se deben de conceder permisos para utilizar la ubicación del dispositivo para continuar, inténtalo de nuevo.</string>
     <string name="verifying_product">Verificando disponibilidad de producto</string>
     <string name="syncing_server">Sincronizando datos con servidor</string>
-    <string name="machine_change">Cambiar de máquina</string>
+    <string name="machine_change">Cambiar vending</string>
     <string name="cancelled">Has cancelado la compra</string>
     <string name="location_error">No se ha podido obtener la ubicación del dispositivo. Intente de nuevo.</string>
-    <string name="thanks">Gracias por tu compra, puedes disponer de tu bebida en el momento que desees mostrando tu código QR</string>
-    <string name="offline_machine">Parece que la máquina Shakepoint, por el momento no contiene producto disponible o se encuentra en modo offline.</string>
-    <string name="title_activity_main_drawer">MainDrawerActivity</string>
+    <string name="thanks">Gracias por tu compra, puedes disponer de tu bebida en el momento que desees mostrando tu código QR la vending sincronizada</string>
+    <string name="offline_machine">Parece que la vending Shakepoint, por el momento no contiene productos disponibles o se encuentra en modo offline.</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

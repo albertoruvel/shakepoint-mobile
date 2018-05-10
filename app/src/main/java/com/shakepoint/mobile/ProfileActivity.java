@@ -79,12 +79,13 @@ public class ProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private ProgressDialog progressDialog;
-    private static final ShopClient shopClient = RetroFactory.retrofit().create(ShopClient.class);
+    private static ShopClient shopClient;
     private static final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shopClient = RetroFactory.retrofit(this).create(ShopClient.class);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);

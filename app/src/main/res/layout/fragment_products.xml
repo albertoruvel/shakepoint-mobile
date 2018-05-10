@@ -14,7 +14,7 @@
         <android.support.v7.widget.CardView
             app:cardElevation="1dp"
             android:visibility="gone"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="12dp"
             android:id="@+id/productsCurrentMachineCard"
             app:contentPadding="12dp"
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 <Button
                     android:id="@+id/productsChangeMachineButton"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="Cambiar máquina"
+                    android:text="Cambiar vending"
                     android:layout_weight=".4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />

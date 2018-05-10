@@ -25,7 +25,7 @@ public class SharedUtils {
     public static final DateFormat LOCAL_SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     public static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$", Pattern.CASE_INSENSITIVE);
 
 
     static {
@@ -91,6 +91,6 @@ public class SharedUtils {
     }
 
     public static boolean isEmailValid(String email){
-        return EMAIL_PATTERN.matcher(email).find();
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 }

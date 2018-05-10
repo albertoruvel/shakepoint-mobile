@@ -12,49 +12,72 @@ import com.shakepoint.mobile.R;
 import com.shakepoint.mobile.data.res.ProductResponse;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 
 /**
  * Created by jose.rubalcaba on 02/14/2018.
  */
 
-public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductsAdapterViewHolder> {
+public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<ProductResponse> products;
     private View.OnClickListener onClickListener;
+    private String[] orderedCategories = new String[]{"Proteína", "Aminoácido", "Pre-Entreno"};
 
     public ProductsAdapter(List<ProductResponse> products, View.OnClickListener listener) {
         this.products = products;
         this.onClickListener = listener;
+        orderProducts();
     }
 
-    @Override
-    public ProductsAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
-        view.setOnClickListener(onClickListener);
-        return new ProductsAdapterViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ProductsAdapterViewHolder holder, int position) {
-        ProductResponse response = products.get(position);
-        holder.productName.setText(response.getName());
-        holder.productDescription.setText(response.getDescription());
-        try{
-            Picasso.with(holder.productImage.getContext())
-                    .load(response.getLogoUrl())
-                    .into(holder.productImage);
-        }catch(IllegalArgumentException ex){
-            Picasso.with(holder.productImage.getContext())
-                    .load(R.mipmap.ic_launcher)
-                    .into(holder.productImage);
+    private void orderProducts() {
+        List<ProductResponse> orderedProducts = new ArrayList();
+        for (String type : orderedCategories) {
+            //get all products from type
+            for (ProductResponse pr : products) {
+                if (pr.getProductType().equals(type)){
+                    orderedProducts.add(pr);
+                }
+            }
         }
 
-        holder.productPrice.setText("$" + response.getPrice());
+        //re-assign ordered products
+        products = orderedProducts;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ViewHolder viewHolder = null;
+        View view = null;
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_item, parent, false);
+        view.setOnClickListener(onClickListener);
+        viewHolder = new ProductsAdapterViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        //product
+        ProductResponse response = (ProductResponse) products.get(position);
+        ProductsAdapterViewHolder productViewHolder = (ProductsAdapterViewHolder) holder;
+        productViewHolder.productName.setText(response.getName());
+        productViewHolder.productDescription.setText(response.getProductType());
+        try {
+            Picasso.with(productViewHolder.productImage.getContext())
+                    .load(response.getLogoUrl())
+                    .into(productViewHolder.productImage);
+        } catch (IllegalArgumentException ex) {
+            Picasso.with(productViewHolder.productImage.getContext())
+                    .load(R.mipmap.ic_launcher)
+                    .into(productViewHolder.productImage);
+        }
+
+        productViewHolder.productPrice.setText("$" + ((Double)response.getPrice()).intValue());
+
     }
 
     @Override
@@ -82,11 +105,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         }
     }
 
-    public String getMachineId(int position){
-        return products.get(position).getId();
+    public String getMachineId(int position) {
+        return ((ProductResponse) products.get(position)).getId();
     }
 
-    public interface OnItemClicked {
-        public void onItemClicked(String machineId);
-    }
 }

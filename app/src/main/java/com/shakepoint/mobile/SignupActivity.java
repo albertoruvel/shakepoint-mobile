@@ -39,28 +39,35 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    private final SecurityClient securityClient = RetroFactory.retrofit().create(SecurityClient.class);
+    private SecurityClient securityClient;
     private ProgressDialog progressDialog;
+    private boolean isEmailValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        securityClient  = RetroFactory.retrofit(this).create(SecurityClient.class);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (! b){
-                    //lost focus
-                    if (SharedUtils.isEmailValid(email.getText().toString())){
-                        //email valid
+                    if (validateEmail()){
                         email.setError(null);
+                        isEmailValid = true;
                     }else {
-                        email.setError("Formato de email inválido");
+                        email.setError("Formato de correo inválido");
+                        isEmailValid = false;
                     }
                 }
             }
         });
+    }
+
+    private boolean validateEmail() {
+        final String emailValue = email.getText().toString();
+        return SharedUtils.isEmailValid(emailValue);
     }
 
     @OnClick(R.id.signupButton)
@@ -76,6 +83,9 @@ public class SignupActivity extends AppCompatActivity {
             return;
         } else if (emailValue.isEmpty()) {
             Snackbar.make(coordinatorLayout, getString(R.string.required_email), Snackbar.LENGTH_LONG).show();
+            return;
+        } else if (! isEmailValid) {
+            Snackbar.make(coordinatorLayout, "Formato de correo inválido", Snackbar.LENGTH_LONG).show();
             return;
         } else if (password1Value.isEmpty()) {
             Snackbar.make(coordinatorLayout, getString(R.string.required_password), Snackbar.LENGTH_LONG).show();

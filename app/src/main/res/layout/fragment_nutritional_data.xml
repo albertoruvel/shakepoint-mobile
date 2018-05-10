@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shakepoint.mobile.fragment.NutritionalDataFragment"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_marginBottom="16dp"
+        android:id="@+id/nutritionalDataMessage"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/big"
+        android:text="Información nutrimental"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_below="@id/nutritionalDataMessage"
+        android:id="@+id/nutritionalDataImage"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
+
+</RelativeLayout>

@@ -85,12 +85,13 @@ public class SearchMachineActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private final ShopClient shopClient = RetroFactory.retrofit().create(ShopClient.class);
+    private ShopClient shopClient;
     private MachineSearchResponse machineSearchResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shopClient = RetroFactory.retrofit(this).create(ShopClient.class);
         setContentView(R.layout.activity_search_machine);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -166,6 +167,14 @@ public class SearchMachineActivity extends AppCompatActivity {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if (locationManager != null){
+            locationManager.removeUpdates(locationListener);
         }
     }
 

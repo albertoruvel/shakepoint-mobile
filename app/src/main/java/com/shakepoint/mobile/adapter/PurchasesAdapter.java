@@ -51,7 +51,7 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
         } catch (ParseException ex) {
         }
 
-        holder.purchaseTotal.setText("$" + response.getTotal());
+        holder.purchaseTotal.setText("$" + ((Double)response.getTotal()).intValue());
     }
 
     @Override

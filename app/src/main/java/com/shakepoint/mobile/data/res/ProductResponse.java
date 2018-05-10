@@ -11,6 +11,8 @@ public class ProductResponse {
     private String logoUrl;
     private double price;
     private String description;
+    private String productType;
+    private String nutritionalDataUrl;
 
     public String getId() {
         return id;
@@ -50,5 +52,21 @@ public class ProductResponse {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public String getNutritionalDataUrl() {
+        return nutritionalDataUrl;
+    }
+
+    public void setNutritionalDataUrl(String nutritionalDataUrl) {
+        this.nutritionalDataUrl = nutritionalDataUrl;
     }
 }

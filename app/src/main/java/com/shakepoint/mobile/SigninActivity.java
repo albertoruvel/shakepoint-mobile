@@ -37,27 +37,34 @@ public class SigninActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
 
     private ProgressDialog progressDialog;
-    private final SecurityClient securityClient = RetroFactory.retrofit().create(SecurityClient.class);
+    private SecurityClient securityClient;
+    private boolean isEmailValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         securityClient = RetroFactory.retrofit(this).create(SecurityClient.class);
         setContentView(R.layout.activity_signin);
         ButterKnife.bind(this);
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (! b){
-                    //lost focus
-                    if (SharedUtils.isEmailValid(email.getText().toString())){
-                        //email valid
+                    if (validateEmail()){
                         email.setError(null);
+                        isEmailValid = true;
                     }else {
-                        email.setError("Formato de email inválido");
+                        email.setError("Formato de correo inválido");
+                        isEmailValid = false;
                     }
                 }
             }
         });
+    }
+
+    private boolean validateEmail() {
+        final String emailValue = email.getText().toString();
+        return SharedUtils.isEmailValid(emailValue);
     }
 
     @OnClick(R.id.signinButton)
@@ -68,7 +75,10 @@ public class SigninActivity extends AppCompatActivity {
         if (emailValue.isEmpty()) {
             Snackbar.make(coordinatorLayout, getString(R.string.required_email), Snackbar.LENGTH_LONG).show();
             return;
-        } else if (passwordValue.isEmpty()) {
+        } else if (!isEmailValid){
+            Snackbar.make(coordinatorLayout, "Formato de correo inválido", Snackbar.LENGTH_LONG).show();
+            return;
+        }else if (passwordValue.isEmpty()) {
             Snackbar.make(coordinatorLayout, getString(R.string.required_password), Snackbar.LENGTH_LONG).show();
             return;
         }
@@ -85,7 +95,7 @@ public class SigninActivity extends AppCompatActivity {
                     public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {
                         switch (response.code()) {
                             case 200:
-                                if (response.body().isSuccess()){
+                                if (response.body().isSuccess()) {
                                     SharedUtils.setAuthenticationToken(SigninActivity.this, response.body().getAuthenticationToken());
                                     Intent intent = new Intent(SigninActivity.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

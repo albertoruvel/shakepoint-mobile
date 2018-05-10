@@ -46,11 +46,11 @@ public class ActiveCodesFragment extends Fragment {
     TextView message;
 
     private View currentView;
-    private final ShopClient shopClient = RetroFactory.retrofit().create(ShopClient.class);
+    private ShopClient shopClient;
     private QrCodesAdapter adapter;
 
     public ActiveCodesFragment() {
-        // Required empty public constructor
+
     }
 
     public static ActiveCodesFragment newInstance() {
@@ -69,6 +69,7 @@ public class ActiveCodesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shopClient = RetroFactory.retrofit(getActivity()).create(ShopClient.class);
     }
 
     @Override
