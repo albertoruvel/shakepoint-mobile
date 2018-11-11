@@ -8,6 +8,7 @@ public class AuthenticationResponse {
     private String authenticationToken;
     private String message;
     private boolean success;
+    private String role;
 
     public String getAuthenticationToken() {
         return authenticationToken;
@@ -31,5 +32,13 @@ public class AuthenticationResponse {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

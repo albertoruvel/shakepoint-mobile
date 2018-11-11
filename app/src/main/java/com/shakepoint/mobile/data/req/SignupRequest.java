@@ -8,12 +8,14 @@ public class SignupRequest {
     private String name;
     private String email;
     private String password;
+    private String birthdate;
+    private String facebookId;
 
-
-    public SignupRequest(String name, String email, String password) {
+    public SignupRequest(String name, String email, String password, String birthDate) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.birthdate = birthDate;
     }
 
     public String getName() {
@@ -38,5 +40,21 @@ public class SignupRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(String birthDate) {
+        this.birthdate = birthDate;
+    }
+
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
     }
 }

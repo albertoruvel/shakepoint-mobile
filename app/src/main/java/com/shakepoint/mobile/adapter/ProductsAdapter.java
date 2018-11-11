@@ -28,10 +28,13 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private View.OnClickListener onClickListener;
     private String[] orderedCategories = new String[]{"Proteína", "Aminoácido", "Pre-Entreno"};
 
-    public ProductsAdapter(List<ProductResponse> products, View.OnClickListener listener) {
+    public ProductsAdapter(List<ProductResponse> products, View.OnClickListener listener, boolean order) {
         this.products = products;
         this.onClickListener = listener;
-        orderProducts();
+        if (order) {
+            orderProducts();
+        }
+
     }
 
     private void orderProducts() {
@@ -103,6 +106,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public ProductResponse getProduct(int position) {
+        return products.get(position);
     }
 
     public String getMachineId(int position) {

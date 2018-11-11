@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "487457878064",
+    "firebase_url": "https://shakepoint-832c6.firebaseio.com",
+    "project_id": "shakepoint-832c6",
+    "storage_bucket": "shakepoint-832c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487457878064:android:dce73ee663293431",
+        "android_client_info": {
+          "package_name": "com.shakepoint.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487457878064-h1rg1886vlu8vrp420u9tdnmmgkob86o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaD6cUzTjIjnM4c8KO4yec7zF6ektuTck"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

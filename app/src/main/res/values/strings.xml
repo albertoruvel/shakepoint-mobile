@@ -23,6 +23,8 @@
     <string name="valid_only">Válido sólo para %s</string>
     <string name="purchase_date">Fecha: %s</string>
     <string name="cvvHelpMessage">El código de seguridad es aquel que se encuentra detrás de tu tarjeta, contiene 3 dígitos y es único para cada tarjeta.</string>
+    <string name="forgotPasswordMessage">Escribe tu correo electrónico en el campo, recibirás un correo para confirmar tu identidad y cambiar tu contraseña</string>
+    <string name="email">Correo electrónico</string>
 
     <string name="invalid_passwords">Las contraseñas deben de coincidir</string>
     <string name="exit_question">Seguro que deseas salir?</string>
@@ -36,8 +38,17 @@
     <string name="cancelled">Has cancelado la compra</string>
     <string name="location_error">No se ha podido obtener la ubicación del dispositivo. Intente de nuevo.</string>
     <string name="thanks">Gracias por tu compra, puedes disponer de tu bebida en el momento que desees mostrando tu código QR la vending sincronizada</string>
-    <string name="offline_machine">Parece que la vending Shakepoint, por el momento no contiene productos disponibles o se encuentra en modo offline.</string>
+    <string name="offline_machine">Parece que la vending Shakepoint, por el momento no contiene productos disponibles o se encuentra en modo apagada.</string>
+    <string name="facebook_app_id">201570997372161</string>
+    <string name="fb_login_protocol_scheme">fb201570997372161</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_admin_main">AdminMainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="whatsapp_message">He compartido éste código de promoción contigo: %s. Puedes usarlo dentro de la aplicación Shakepoint (https://play.google.com/store/apps/details?id=com.shakepoint.mobile)</string>
 </resources>

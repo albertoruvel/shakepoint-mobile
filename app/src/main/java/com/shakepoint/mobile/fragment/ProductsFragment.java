@@ -24,11 +24,14 @@ import com.shakepoint.mobile.R;
 import com.shakepoint.mobile.SearchMachineActivity;
 import com.shakepoint.mobile.adapter.ProductsAdapter;
 import com.shakepoint.mobile.data.res.MachineSearchResponse;
+import com.shakepoint.mobile.data.res.ProductResponse;
 import com.shakepoint.mobile.data.res.ProductResponseWrapper;
 import com.shakepoint.mobile.decorator.SpaceDividerItemDecorator;
 import com.shakepoint.mobile.retro.RetroFactory;
 import com.shakepoint.mobile.retro.ShopClient;
 import com.shakepoint.mobile.util.SharedUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,13 +131,13 @@ public class ProductsFragment extends Fragment {
             //get products from id
             String machineId = SharedUtils.getPreferredMachine(getActivity()).getMachineId();
             shopClient.getProducts(SharedUtils.getAuthenticationHeader(getActivity()), machineId)
-                    .enqueue(new Callback<ProductResponseWrapper>() {
+                    .enqueue(new Callback<List<ProductResponse>>() {
                         @Override
-                        public void onResponse(Call<ProductResponseWrapper> call, Response<ProductResponseWrapper> response) {
+                        public void onResponse(Call<List<ProductResponse>> call, Response<List<ProductResponse>> response) {
                             switch (response.code()) {
                                 case 200:
                                     loading = false;
-                                    adapter = new ProductsAdapter(response.body().getProducts(), new View.OnClickListener() {
+                                    adapter = new ProductsAdapter(response.body(), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
                                             int position = recyclerView.getChildLayoutPosition(view);
@@ -143,7 +146,7 @@ public class ProductsFragment extends Fragment {
                                             intent.putExtra(ProductDetailsActivity.PRODUCT_ID, productId);
                                             startActivity(intent);
                                         }
-                                    });
+                                    }, true);
                                     recyclerView.setAdapter(adapter);
                                     recyclerView.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);
@@ -160,7 +163,7 @@ public class ProductsFragment extends Fragment {
                         }
 
                         @Override
-                        public void onFailure(Call<ProductResponseWrapper> call, Throwable t) {
+                        public void onFailure(Call<List<ProductResponse>> call, Throwable t) {
                             progressBar.setVisibility(View.GONE);
                             message.setText(getString(R.string.request_error));
                             message.setVisibility(View.VISIBLE);

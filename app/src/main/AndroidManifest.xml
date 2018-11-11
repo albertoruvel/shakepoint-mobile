@@ -5,19 +5,45 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
+        android:name=".ShakepointApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA6D8iJ_57MCPGgnSxpKXJRakhHuE6fwa0" />
+
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
         <activity
@@ -46,7 +72,45 @@
             android:name=".CardActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ProfileActivity" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter android:label="filter_view_token_request">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.dev.shakepoint.com.mx"
+                    android:pathPrefix="/resetPassword"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".admin.AdminMainActivity"
+            android:label="@string/title_activity_admin_main"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".admin.AdminMachineProductsActivity" />
+        <activity
+            android:name=".admin.AdminCreateProductActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".admin.AdminCreatePromo"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".admin.AdminCreateVendingActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".AssignedPromosActivity" />
+        <activity android:name=".ApplicationTermsActivity" />
+        <activity android:name=".admin.AdminCreateFlavorActivity" />
+        <activity android:name=".admin.AdminProductFlavorsActivity"></activity>
     </application>
 
 </manifest>

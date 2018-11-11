@@ -69,4 +69,9 @@ public class ProductResponse {
     public void setNutritionalDataUrl(String nutritionalDataUrl) {
         this.nutritionalDataUrl = nutritionalDataUrl;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

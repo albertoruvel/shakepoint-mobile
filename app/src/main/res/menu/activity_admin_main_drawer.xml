@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_vendings"
+            android:title="Vendings" />
+
+        <item
+            android:id="@+id/nav_promos"
+            android:title="Promociones" />
+        <item
+            android:id="@+id/nav_products"
+            android:title="Productos" />
+
+        <item android:id="@+id/nav_flavors"
+            android:title="Sabores"/>
+
+        <item
+            android:id="@+id/nav_partners"
+            android:title="Crear socio" />
+
+        <item android:id="@+id/nav_trainer"
+            android:title="Crear entrenador"/>
+
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Cerrar sesión" />
+    </group>
+
+</menu>

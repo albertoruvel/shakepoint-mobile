@@ -23,7 +23,6 @@ public class TabbedSectionAdapter extends FragmentPagerAdapter {
         fragments.add(ProductsFragment.newInstance());
         fragments.add(PurchasesFragment.newInstance());
         fragments.add(ActiveCodesFragment.newInstance());
-        //TODO: add more here
     }
 
 

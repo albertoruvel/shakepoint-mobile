@@ -41,16 +41,16 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
 
     @Override
     public void onBindViewHolder(PurchaseViewHolder holder, int position) {
-        Date date = new Date();
         PurchaseResponse response = purchases.get(position);
         holder.machineName.setText(response.getMachineName());
         holder.productName.setText(response.getProductName());
-        try {
-            Date purchaseDate = SharedUtils.LOCAL_SIMPLE_DATE_FORMAT.parse(response.getPurchaseDate());
-            holder.purchaseDate.setText(SharedUtils.LOCAL_DATE_FORMAT.format(purchaseDate));
-        } catch (ParseException ex) {
-        }
 
+        try{
+            Date date = SharedUtils.LOCAL_DATE_FORMAT.parse(response.getPurchaseDate());
+            holder.purchaseDate.setText(SharedUtils.SHORT_DATE_FORMAT.format(date));
+        }catch(ParseException ex){
+
+        }
         holder.purchaseTotal.setText("$" + ((Double)response.getTotal()).intValue());
     }
 

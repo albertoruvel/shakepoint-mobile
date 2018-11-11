@@ -30,35 +30,53 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroFactory {
     private static Retrofit retrofit;
-    private static final String BASE_DEV_URL = "http://dev.shakepoint.com.mx/rest/";
-    private static final String BASE_PRD_URL = "https://shakepoint.com.mx/rest/";
-    private static final boolean PRD_ENV = true;
+    private static final Environment CURRENT_ENV = Environment.DEV;
+
+    private enum Environment {
+        LOCAL("http://192.168.0.7:8080/rest/v1/"),
+        DEV("http://35.160.133.118/rest/v1/"),
+        PRD("https://shakepoint.com.mx/rest/v1/");
+        String host;
+
+        Environment(String value) {
+            this.host = value;
+        }
+    }
 
     public static Retrofit retrofit(Context cxt) {
         if (retrofit == null) {
-            if (PRD_ENV) {
-                try {
-                    okhttp3.OkHttpClient client = getHttpClient(cxt);
+            switch (CURRENT_ENV) {
+                case LOCAL:
                     retrofit = new Retrofit.Builder()
-                            .client(client)
-                            .baseUrl(BASE_PRD_URL)
+                            .baseUrl(CURRENT_ENV.host)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
-                } catch (Exception ex) {
-                    Log.e("SSLCONFIG", "Could not create ssl config for PRD env");
-                }
-            } else {
-                retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_DEV_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+                    break;
+                case DEV:
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(CURRENT_ENV.host)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    break;
+                case PRD:
+                    try {
+                        okhttp3.OkHttpClient client = getHttpClient(cxt);
+                        retrofit = new Retrofit.Builder()
+                                .client(client)
+                                .baseUrl(CURRENT_ENV.host)
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+                    } catch (Exception ex) {
+                        Log.e("SSLCONFIG", "Could not create ssl config for PRD env");
+                    }
+                    break;
             }
 
         }
         return retrofit;
     }
 
-    private static OkHttpClient getHttpClient(Context cxt)  throws java.security.cert.CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    private static OkHttpClient getHttpClient(Context cxt) throws java.security.cert.CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         //load cas from an input stream
         CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
         Certificate cert;

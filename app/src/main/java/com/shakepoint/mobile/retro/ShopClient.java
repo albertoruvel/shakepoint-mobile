@@ -2,11 +2,13 @@ package com.shakepoint.mobile.retro;
 
 import com.shakepoint.mobile.data.req.ConfirmPurchaseRequest;
 import com.shakepoint.mobile.data.req.ProfileRequest;
+import com.shakepoint.mobile.data.req.ValidatePromoCodeRequest;
 import com.shakepoint.mobile.data.res.AvailablePurchaseResponse;
 import com.shakepoint.mobile.data.res.MachineSearchResponse;
 import com.shakepoint.mobile.data.res.ProductResponse;
 import com.shakepoint.mobile.data.res.ProductResponseWrapper;
 import com.shakepoint.mobile.data.res.ProfileResponse;
+import com.shakepoint.mobile.data.res.PromoCodeValidationResponse;
 import com.shakepoint.mobile.data.res.PurchaseConfirmationResponse;
 import com.shakepoint.mobile.data.res.PurchaseResponse;
 import com.shakepoint.mobile.data.res.QrCodeResponse;
@@ -40,7 +42,7 @@ public interface ShopClient {
     public Call<List<MachineSearchResponse>> searchMachinesByName(@Header("Authorization")String token, @Query("name")String name);
 
     @GET("shop/getProducts")
-    public Call<ProductResponseWrapper> getProducts(@Header("Authorization")String token, @Query("machineId")String machineId);
+    public Call<List<ProductResponse>> getProducts(@Header("Authorization")String token, @Query("machineId")String machineId);
 
     @GET("shop/productDetails")
     public Call<ProductResponse>getProductDetails(@Header("Authorization")String token, @Query("productId")String productId);
@@ -56,5 +58,8 @@ public interface ShopClient {
 
     @GET("shop/getAvailablePurchaseForMachine")
     public Call<AvailablePurchaseResponse> getAvailablePurchaseForMachine(@Header("Authorization")String token, @Query("productId") String productId, @Query("machineId")String machineId);
+
+    @POST("shop/validatePromoCode")
+    public Call<PromoCodeValidationResponse> validatePromoCode (@Header("Authorization")String token, @Body ValidatePromoCodeRequest request);
 
 }

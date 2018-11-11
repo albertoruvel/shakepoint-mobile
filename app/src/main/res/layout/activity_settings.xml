@@ -105,6 +105,39 @@
                 android:focusable="true"
                 android:clickable="true"
                 android:background="?attr/selectableItemBackground"
+                android:id="@+id/settingsPromoCodes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="Promociones asignadas"
+                    android:textSize="@dimen/big"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Despliega y comparte promociones (Solo entrenadores)"
+                    android:textSize="@dimen/normal" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/settingsPromoCodesSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_margin="8dp"
+                android:background="@color/colorAccent" />
+
+            <LinearLayout
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
                 android:id="@+id/settingsContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,6 +157,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tienes alguna duda o sugerencia? Contáctanos"
+                    android:textSize="@dimen/normal" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_margin="8dp"
+                android:background="@color/colorAccent" />
+
+            <LinearLayout
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:id="@+id/settingsPrivacyTerm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="Aviso de privacidad"
+                    android:textSize="@dimen/big"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Revisa el aviso de privacidad"
                     android:textSize="@dimen/normal" />
             </LinearLayout>
 

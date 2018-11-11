@@ -13,9 +13,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.shakepoint.mobile.data.internal.CardInfo;
+import com.shakepoint.mobile.data.internal.SecurityRole;
 import com.shakepoint.mobile.util.SharedUtils;
 
 import butterknife.BindView;
@@ -33,6 +37,12 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
+    @BindView(R.id.settingsPromoCodes)
+    LinearLayout promoCodesLayout;
+
+    @BindView(R.id.settingsPromoCodesSeparator)
+    View promoCodesSeparator;
+
     private static final int CARD_ACTIVITY_REQUEST_CODE = 123;
 
     @Override
@@ -44,6 +54,19 @@ public class SettingsActivity extends AppCompatActivity {
         setCardInfo(cardInfo);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //check if logged user is trainer
+        if (SharedUtils.getAuthenticationRole(this) == SecurityRole.TRAINER) {
+            promoCodesLayout.setVisibility(View.VISIBLE);
+            promoCodesSeparator.setVisibility(View.VISIBLE);
+        } else {
+            promoCodesLayout.setVisibility(View.GONE);
+            promoCodesSeparator.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.settingsPromoCodes)
+    public void trainerPromoCodes() {
+        startActivity(new Intent(this, AssignedPromosActivity.class));
     }
 
     private void setCardInfo(CardInfo cardInfo) {
@@ -60,13 +83,20 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch(id){
+        switch (id) {
             case android.R.id.home:
                 finish();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.settingsPrivacyTerm)
+    public void showPrivacyTerms() {
+        Intent intent = new Intent(this, ApplicationTermsActivity.class);
+        intent.putExtra(ApplicationTermsActivity.SHOW_ACTION_BUTTONS, Boolean.FALSE);
+        startActivity(intent);
     }
 
     @OnClick(R.id.settingsPaymentMethod)
@@ -82,7 +112,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.settingsContact)
     public void profileContact() {
-        try{
+        try {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setData(Uri.parse("mailto:"));
             intent.setType("message/rfc822");
@@ -90,8 +120,8 @@ public class SettingsActivity extends AppCompatActivity {
             intent.putExtra(Intent.EXTRA_SUBJECT, "Shakepoint application contact");
             intent.putExtra(Intent.EXTRA_TEXT, "Escribe tu mensaje :)");
             startActivity(intent);
-        }catch(ActivityNotFoundException ex){
-            Snackbar.make(coordinatorLayout, "No se ha encontrado tu aplicación default para enviar correos electrónicos, ve a configuración y seleccionala",Snackbar.LENGTH_INDEFINITE)
+        } catch (ActivityNotFoundException ex) {
+            Snackbar.make(coordinatorLayout, "No se ha encontrado tu aplicación default para enviar correos electrónicos, ve a configuración y seleccionala", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Ajustes", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -111,6 +141,10 @@ public class SettingsActivity extends AppCompatActivity {
                         SharedUtils.clear(SettingsActivity.this);
                         Intent intent = new Intent(SettingsActivity.this, WelcomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        AccessToken facebookAccessToken = AccessToken.getCurrentAccessToken();
+                        if (facebookAccessToken != null) {
+                            LoginManager.getInstance().logOut();
+                        }
                         startActivity(intent);
                     }
                 })
@@ -119,8 +153,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CARD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-            if (data.getBooleanExtra(CardActivity.CARD_SAVED, Boolean.FALSE)){
+        if (requestCode == CARD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data.getBooleanExtra(CardActivity.CARD_SAVED, Boolean.FALSE)) {
                 //change text
                 CardInfo cardInfo = SharedUtils.getCardInfo(this);
                 setCardInfo(cardInfo);

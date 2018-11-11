@@ -9,12 +9,14 @@ public class ConfirmPurchaseRequest {
     private String cardNumber;
     private String cardExpirationDate;
     private String cvv;
+    private String promoCode;
 
-    public ConfirmPurchaseRequest(String purchaseId, String cardNumber, String cardExpirationDate, String cvv) {
+    public ConfirmPurchaseRequest(String purchaseId, String cardNumber, String cardExpirationDate, String cvv, String promoCode) {
         this.purchaseId = purchaseId;
         this.cardNumber = cardNumber;
         this.cardExpirationDate = cardExpirationDate;
         this.cvv = cvv;
+        this.promoCode = promoCode;
     }
 
     public String getCardNumber() {
@@ -53,4 +55,11 @@ public class ConfirmPurchaseRequest {
         this.purchaseId = purchaseId;
     }
 
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
+    }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:padding="16dp"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_weight=".15"
+        android:background="@color/colorAccent"
+        android:id="@+id/flavorItemColor"
+        android:layout_width="0dp"
+        android:layout_height="50dp"/>
+
+    <TextView
+        android:textSize="@dimen/normal"
+        android:gravity="center"
+        android:layout_weight=".85"
+        android:layout_gravity="center"
+        android:id="@+id/flavorItemName"
+        android:text="Sabor 1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>
