@@ -63,7 +63,7 @@ public class AdminCreateFlavorActivity extends AppCompatActivity {
                 currentHexColor = strColor;
                 view.setBackgroundColor(color);
             }
-        });
+        }).show();
     }
 
 

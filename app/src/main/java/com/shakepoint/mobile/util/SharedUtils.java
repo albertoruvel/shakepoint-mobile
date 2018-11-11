@@ -6,6 +6,7 @@ import android.os.Environment;
 
 import com.google.gson.Gson;
 import com.shakepoint.mobile.SearchMachineActivity;
+import com.shakepoint.mobile.ShakepointFirebaseInstanceIDService;
 import com.shakepoint.mobile.data.internal.CardInfo;
 import com.shakepoint.mobile.data.internal.SecurityRole;
 import com.shakepoint.mobile.data.res.MachineSearchResponse;
@@ -51,6 +52,7 @@ public class SharedUtils {
     private static final String PREFERED_MACHINE = "shakepoint-prefered-machine";
     private static final String PREFS = "shakepoint-prefs";
     private static final String PREFS_TERMS = "shakepoint-terms";
+    private static final String PREFS_FCM_TOKEN = "shakepoint-fcm-token";
 
     public static final String getAuthenticationToken(Context cxt) {
         final String token = cxt.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(AUTH_TOKEN, "");
@@ -195,5 +197,17 @@ public class SharedUtils {
 
     public static final String getHexColorFromInteger(int color) {
         return String.format("#%06X", (0xFFFFFF & color));
+    }
+
+    public static void setFCMToken(Context cxt, String token) {
+        cxt.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putString(PREFS_FCM_TOKEN, token)
+                .commit();
+    }
+
+    public static String getFCMToken(Context cxt) {
+        return cxt.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .getString(PREFS_FCM_TOKEN, "");
     }
 }

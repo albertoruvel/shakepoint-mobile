@@ -39,27 +39,37 @@ public interface ShopClient {
     public Call<MachineSearchResponse> searchClosestMachine(@Header("Authorization") String token, @Query("latitude") double lat, @Query("longitude") double lon);
 
     @GET("shop/searchMachineByName")
-    public Call<List<MachineSearchResponse>> searchMachinesByName(@Header("Authorization")String token, @Query("name")String name);
+    public Call<List<MachineSearchResponse>> searchMachinesByName(@Header("Authorization") String token, @Query("name") String name);
 
     @GET("shop/getProducts")
-    public Call<List<ProductResponse>> getProducts(@Header("Authorization")String token, @Query("machineId")String machineId);
+    public Call<List<ProductResponse>> getProducts(@Header("Authorization") String token, @Query("machineId") String machineId);
 
     @GET("shop/productDetails")
-    public Call<ProductResponse>getProductDetails(@Header("Authorization")String token, @Query("productId")String productId);
+    public Call<ProductResponse> getProductDetails(@Header("Authorization") String token, @Query("productId") String productId);
 
     @GET("shop/getPurchases")
-    public Call<List<PurchaseResponse>> getUserPurchases(@Header("Authorization")String token);
+    public Call<List<PurchaseResponse>> getUserPurchases(@Header("Authorization") String token);
 
     @GET("shop/getAuthorizedPurchases")
-    public Call<List<QrCodeResponse>> getActiveCodesByMachine(@Header("Authorization")String token, @Query("machineId")String machineId);
+    public Call<List<QrCodeResponse>> getActiveCodesByMachine(@Header("Authorization") String token, @Query("machineId") String machineId);
 
     @POST("shop/confirmPurchase")
-    public Call<PurchaseConfirmationResponse> confirmPurchase(@Header("Authorization")String token, @Body ConfirmPurchaseRequest request);
+    public Call<PurchaseConfirmationResponse> confirmPurchase(@Header("Authorization") String token, @Body ConfirmPurchaseRequest request);
 
     @GET("shop/getAvailablePurchaseForMachine")
-    public Call<AvailablePurchaseResponse> getAvailablePurchaseForMachine(@Header("Authorization")String token, @Query("productId") String productId, @Query("machineId")String machineId);
+    public Call<AvailablePurchaseResponse> getAvailablePurchaseForMachine(@Header("Authorization") String token, @Query("productId") String productId, @Query("machineId") String machineId);
 
     @POST("shop/validatePromoCode")
-    public Call<PromoCodeValidationResponse> validatePromoCode (@Header("Authorization")String token, @Body ValidatePromoCodeRequest request);
+    public Call<PromoCodeValidationResponse> validatePromoCode(@Header("Authorization") String token, @Body ValidatePromoCodeRequest request);
+
+    @POST("shop/setEmailsEnabled")
+    public Call<Void> setEmailsEnabled(@Header("Authorization") String token, @Query("enabled") boolean enabled);
+
+    @POST("shop/setNotificationsEnabled")
+    public Call<Void> setNotificationsEnabled(@Header("Authorization") String token, @Query("enabled") boolean enabled);
+
+    @POST("shop/deactivate")
+    public Call<Void> deactivateUser(@Header("Authorization") String token);
+
 
 }

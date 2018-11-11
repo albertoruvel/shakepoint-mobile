@@ -110,7 +110,33 @@
         <activity android:name=".AssignedPromosActivity" />
         <activity android:name=".ApplicationTermsActivity" />
         <activity android:name=".admin.AdminCreateFlavorActivity" />
-        <activity android:name=".admin.AdminProductFlavorsActivity"></activity>
+
+        <service
+            android:name=".ShakepointFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".ShakepointFirebaseInstanceIDService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
+        <activity android:name=".CommunicationSettingsActivity" />
+        <activity android:name=".DeactivateUserActivity"></activity>
     </application>
 
 </manifest>

@@ -43,6 +43,18 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.settingsPromoCodesSeparator)
     View promoCodesSeparator;
 
+    @BindView(R.id.settingsNotifications)
+    LinearLayout communicationSettingsLayout;
+
+    @BindView(R.id.settingsNotificationsSeparator)
+    View communicationSeparator;
+
+    @BindView(R.id.settingsDeactivate)
+    LinearLayout deactivateUserLayout;
+
+    @BindView(R.id.settingsDeactivateSeparator)
+    View deactivaateSeparator;
+
     private static final int CARD_ACTIVITY_REQUEST_CODE = 123;
 
     @Override
@@ -61,6 +73,16 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             promoCodesLayout.setVisibility(View.GONE);
             promoCodesSeparator.setVisibility(View.GONE);
+        }
+
+        if (SharedUtils.getAuthenticationRole(this) != SecurityRole.MEMBER && SharedUtils.getAuthenticationRole(this) != SecurityRole.TRAINER) {
+            communicationSettingsLayout.setVisibility(View.GONE);
+            communicationSeparator.setVisibility(View.GONE);
+            deactivateUserLayout.setVisibility(View.GONE);
+            deactivaateSeparator.setVisibility(View.GONE);
+        } else {
+            communicationSettingsLayout.setVisibility(View.VISIBLE);
+            communicationSeparator.setVisibility(View.VISIBLE);
         }
     }
 
@@ -116,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setData(Uri.parse("mailto:"));
             intent.setType("message/rfc822");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"alexfp1107@gmail.com", "m.industrialdesigns@gmail.com", "albertoruvel@gmail.com"});
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"alexfp1107@gmail.com", "albertoruvel@gmail.com"});
             intent.putExtra(Intent.EXTRA_SUBJECT, "Shakepoint application contact");
             intent.putExtra(Intent.EXTRA_TEXT, "Escribe tu mensaje :)");
             startActivity(intent);
@@ -160,5 +182,15 @@ public class SettingsActivity extends AppCompatActivity {
                 setCardInfo(cardInfo);
             }
         }
+    }
+
+    @OnClick(R.id.settingsNotifications)
+    public void communicationSettings() {
+        startActivity(new Intent(this, CommunicationSettingsActivity.class));
+    }
+
+    @OnClick(R.id.settingsDeactivate)
+    public void deactivateUser() {
+        startActivity(new Intent(this, DeactivateUserActivity.class));
     }
 }

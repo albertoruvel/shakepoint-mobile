@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,9 +15,7 @@ import android.widget.TextView;
 
 import com.shakepoint.mobile.R;
 import com.shakepoint.mobile.adapter.ProductsAdapter;
-import com.shakepoint.mobile.admin.AdminProductFlavorsActivity;
 import com.shakepoint.mobile.data.res.ProductResponse;
-import com.shakepoint.mobile.data.res.admin.Product;
 import com.shakepoint.mobile.decorator.SpaceDividerItemDecorator;
 import com.shakepoint.mobile.retro.AdminClient;
 import com.shakepoint.mobile.retro.RetroFactory;
@@ -98,11 +95,7 @@ public class ProductsFragment extends Fragment {
                                                 .setItems(new String[]{"Sabores"}, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        switch (which) {
-                                                            case 0:
-                                                                startActivity(new Intent(getActivity(), AdminProductFlavorsActivity.class));
-                                                                break;
-                                                        }
+
                                                     }
                                                 }).create().show();
                                     }
